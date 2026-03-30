@@ -44,12 +44,12 @@ public class DeploySystem : MonoBehaviour
         }
         selectedUnit = unitPrefab;
         currentButton = button;
-        unitType = unitPrefab.GetComponent<EntityData>().unitType;
-        cost = unitPrefab.GetComponent<EntityData>().cost;
+        EntityData selUnitData = selectedUnit.GetComponent<EntityData>();
+        unitType = selUnitData.unitType;
+        cost = selUnitData.cost;
         highlighter.ShowHighlights(unitType);
         
         state = DeployState.SelectingTile;
-
         Debug.Log("Выбор клетки");
     }
     void Update()
@@ -104,7 +104,11 @@ public class DeploySystem : MonoBehaviour
         currentButton.SetDeployed(previewUnit);
         bitiumSystem.bitium -= cost;
         bitiumSystem.BitiumChange();
-        grid.occupiedPositions.Add(previewUnit.transform.position);
+        Vector3 pos = previewUnit.transform.position;
+        EntityData data = previewUnit.GetComponent<EntityData>();
+        data.occupiedCell = pos;
+        grid.occupiedPositions.Add(pos);
+        
         previewUnit = null;
         currentButton = null;
         state = DeployState.None;

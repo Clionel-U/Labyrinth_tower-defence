@@ -12,7 +12,7 @@ public class EntityData : MonoBehaviour
     [Header("Entity Attributes")] //общие атрибуты для юнитов и врагов
     public string _name; //название
     public Sprite icon; //иконка, для UI
-   public EntityType entityType; //тип сущности, юнит или враг, влияет на то, какие атрибуты у неё есть и как она взаимодействует с другими объектами
+    public EntityType entityType; //тип сущности, юнит или враг, влияет на то, какие атрибуты у неё есть и как она взаимодействует с другими объектами
     public int HP; //текущее здоровье, может изменяться в бою
     public int maxHP; //максимальное базовое здоровье, нужно для восстановления здоровья и отображения HP бара
     public int ATK; //текущая атака, может изменяться баффами и дебаффами
@@ -26,6 +26,9 @@ public class EntityData : MonoBehaviour
     [Space]
     [Header("Unit Attributes")] //атрибуты, специфичные для юнитов
     public int maxBlock; //макс. блок, влияет на то, сколько врагов может заблокировать юнит одновременно
+    [Space]
+    [Header("Unit Technical")]
+    public Vector3 occupiedCell; // координаты клетки, которую занимает юнит, нужно для проверки занятости клеток и для удаления из списка занятых клеток при уничтожении юнита
     [Space]
     [Header("Enemy Attributes")] //атрибуты, специфичные для врагов
     public int blockNeed; //требуемый блок для блокировки врага, влияет на то, может ли юнит его заблокировать
@@ -58,5 +61,12 @@ public class EntityData : MonoBehaviour
     {
         OnDeath?.Invoke();
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        OnHPChanged = null;
+        OnDeath = null;
+        GridManager.Instance?.occupiedPositions.Remove(occupiedCell);
     }
 }

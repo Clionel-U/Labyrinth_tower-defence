@@ -71,19 +71,23 @@ public class UnitButton : MonoBehaviour
     {
         spawnedUnit = unitInstance;
         deployedOverlay.SetActive(true);
-        EntityData data = unitInstance.GetComponent<EntityData>();
+        EntityData data = spawnedUnit.GetComponent<EntityData>();
         data.OnDeath += ClearDeployed;
     }
 
     public void ClearDeployed()
     {
+        EntityData data;
+
         if (spawnedUnit != null)
         {
-            EntityData data = spawnedUnit.GetComponent<EntityData>();
+            data = spawnedUnit.GetComponent<EntityData>();
             if (data != null)
+            {
                 data.OnDeath -= ClearDeployed;
+            }
         }
-
+       
         spawnedUnit = null;
         deployedOverlay.SetActive(false);
     }
