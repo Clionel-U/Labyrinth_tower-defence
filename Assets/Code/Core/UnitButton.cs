@@ -20,6 +20,10 @@ public class UnitButton : MonoBehaviour
     public GameObject deployedOverlay;   // зелёная виньетка
     public GameObject skillReadyIcon;   // иконка скилла
 
+    public int redeployTime;
+    public float redeploymentTimer;
+    public bool onCD;
+
     public void Init(GameObject _unit, DeploySystem depSys, BitiumSystem bitSys)
     {   
         deployedOverlay.SetActive(false);
@@ -30,6 +34,7 @@ public class UnitButton : MonoBehaviour
         EntityData data = unit.GetComponent<EntityData>();
         icon.sprite = data.icon;
         cost = data.cost;
+        redeployTime = data.redeployTime;
         costText.text = cost.ToString();
         UpdateButton();
     }
@@ -43,28 +48,19 @@ public class UnitButton : MonoBehaviour
         }
         else
         {
-            if (UnitUIManager.Instance.panelOpened)
-            {
-                UnitUIManager.Instance.Close();
-            }
-            else
-            {
-                deploySystem.CancelDeploy();
-                UnitUIManager.Instance.Open(spawnedUnit, this);
-
-            }
+            UnitUIManager.Instance.Open(spawnedUnit, this);
         }
     }
 
     void UpdateButton()
     {
+        if (onCD)
+        {
+            button.interactable = false;
+            return;
+        }
+        if (spawnedUnit == null)
         button.interactable = cost <= bitiumSystem.bitium;
-    }
-
-    void OnDestroy()
-    {
-        if (bitiumSystem != null)
-            bitiumSystem.OnBitiumChanged -= UpdateButton;
     }
 
     public void SetDeployed(GameObject unitInstance)
@@ -90,5 +86,25 @@ public class UnitButton : MonoBehaviour
        
         spawnedUnit = null;
         deployedOverlay.SetActive(false);
+        StartRedeployCD();
+    }
+
+    public void StartRedeployCD()
+    {
+        onCD = true;
+        redeploymentTimer = redeployTime;
+        UpdateButton();
+    }
+
+    void Update()
+    {
+        if (!onCD) return;
+
+        redeploymentTimer -= Time.deltaTime;
+        if (redeploymentTimer <= 0)
+        {
+            onCD = false;
+            UpdateButton();
+        }
     }
 }

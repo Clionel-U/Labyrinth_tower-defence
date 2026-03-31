@@ -23,6 +23,11 @@ public class UnitUIManager : MonoBehaviour
 
     public void Open(GameObject unit, UnitButton button)
     {
+        if (unit == currentUnit)
+        {
+            Close();
+            return;
+        }
         currentUnit = unit;
         currentButton = button;
 

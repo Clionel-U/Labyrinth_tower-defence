@@ -23,12 +23,16 @@ public class EntityData : MonoBehaviour
     public AtkType atkType;
     public UnitType unitType;
     public int cost; //стоимость юнита, влияет на то, сколько "бития" нужно для его призыва
+
     [Space]
     [Header("Unit Attributes")] //атрибуты, специфичные для юнитов
     public int maxBlock; //макс. блок, влияет на то, сколько врагов может заблокировать юнит одновременно
+    public int redeployTime; //время перезарядки после уничтожения, влияет на то, как быстро юнит может быть снова призван
+
     [Space]
     [Header("Unit Technical")]
     public Vector3 occupiedCell; // координаты клетки, которую занимает юнит, нужно для проверки занятости клеток и для удаления из списка занятых клеток при уничтожении юнита
+
     [Space]
     [Header("Enemy Attributes")] //атрибуты, специфичные для врагов
     public int blockNeed; //требуемый блок для блокировки врага, влияет на то, может ли юнит его заблокировать
@@ -68,5 +72,6 @@ public class EntityData : MonoBehaviour
         OnHPChanged = null;
         OnDeath = null;
         GridManager.Instance?.occupiedPositions.Remove(occupiedCell);
+        BitiumSystem.Instance?.BitiumChange();
     }
 }

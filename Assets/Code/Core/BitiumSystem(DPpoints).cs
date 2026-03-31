@@ -5,6 +5,9 @@ using TMPro;
 
 public class BitiumSystem : MonoBehaviour
 {
+    public static BitiumSystem Instance;
+    void Awake() => Instance = this;
+
     public bool bitiumGain;
     public int bitium = 0;
     public TMP_Text bitiumCounter;
