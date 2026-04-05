@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,20 +10,22 @@ public enum DeployState
 
 public class DeploySystem : MonoBehaviour
 {
+    public static DeploySystem Instance;
+     void Awake() => Instance = this;
+
     public Camera cam;
-    public GridManager grid;
-    public TileHighlighter highlighter;
     public Button confirmButton;
     public GameObject dirButtonsPrefab;
-    public BitiumSystem bitiumSystem;
+    public GameObject previewUnitPrefab;
 
     [SerializeField] private DeployState state = DeployState.None;
     [SerializeField] private GameObject selectedUnit;
+    private UnitButton currentButton;
     [SerializeField] private GameObject previewUnit;
     [SerializeField] private GameObject dirButtons;
     [SerializeField] private UnitType unitType;
     [SerializeField] private int cost;
-    private UnitButton currentButton;
+
 
     void Start()
     {
@@ -44,21 +42,26 @@ public class DeploySystem : MonoBehaviour
         }
         selectedUnit = unitPrefab;
         currentButton = button;
+
         EntityData selUnitData = selectedUnit.GetComponent<EntityData>();
         unitType = selUnitData.unitType;
         cost = selUnitData.cost;
-        highlighter.ShowHighlights(unitType);
-        
+
+        TileHighlighter.Instance.ShowHighlights(unitType);
+
+        previewUnitPrefab.GetComponent<SpriteRenderer>().sprite = selectedUnit.GetComponent<SpriteRenderer>().sprite;
+
         state = DeployState.SelectingTile;
         Debug.Log("Выбор клетки");
     }
+
     void Update()
     {
         if (state == DeployState.SelectingTile)
         {
             TileSelection();
         }
-        if (state != DeployState.None && cost > bitiumSystem.bitium)
+        if (state != DeployState.None && cost > BitiumSystem.Instance.bitium)
         {
             CancelDeploy();
         }
@@ -70,50 +73,48 @@ public class DeploySystem : MonoBehaviour
         {
             Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
             pos.z = 0;
-            if ((unitType == UnitType.Melee && grid.IsGround(pos)) || (unitType == UnitType.Ranged && grid.IsHighGround(pos))) 
+            if ((unitType == UnitType.Melee && GridManager.Instance.IsGround(pos)) || (unitType == UnitType.Ranged && GridManager.Instance.IsHighGround(pos))) 
             {
-                pos = grid.GetCellCenter(pos);
-                if (grid.occupiedPositions.Contains(pos)) return;
-                //selectedPosition = pos;
-                previewUnit = Instantiate(selectedUnit, pos, Quaternion.identity);
+                pos = GridManager.Instance.GetCellCenter(pos);
+                if (GridManager.Instance.occupiedPositions.Contains(pos)) return;
+                
+                previewUnit = Instantiate(previewUnitPrefab, pos, Quaternion.identity);
 
                 state = DeployState.SelectingDirection;
-                DirectionSelection();
+                DirectionSelection(pos);
                 Debug.Log("Выбор направления");
             }
         }
     }
 
-    void DirectionSelection()
+    void DirectionSelection(Vector3 pos)
     {
         if (previewUnit == null) return;
-        Vector3 pos = previewUnit.transform.position;
+        
         dirButtons = Instantiate(dirButtonsPrefab, pos, Quaternion.identity);
         Rotator rotator = dirButtons.GetComponent<Rotator>();
         rotator.previewUnit = previewUnit;
-        highlighter.Clear();
+
+        TileHighlighter.Instance.Clear();
+        
         confirmButton.gameObject.SetActive(true);
     }
 
     public void ConfirmDeploy()
     {
-        if (previewUnit == null)
-        {
-            return;
-        }
+        if (previewUnit == null) return;
+
         currentButton.SetDeployed(previewUnit);
-        bitiumSystem.bitium -= cost;
-        bitiumSystem.BitiumChange();
-        Vector3 pos = previewUnit.transform.position;
-        EntityData data = previewUnit.GetComponent<EntityData>();
-        data.occupiedCell = pos;
-        grid.occupiedPositions.Add(pos);
+        BitiumSystem.Instance.bitium -= cost;
+        BitiumSystem.Instance.BitiumChange();
         
+        Destroy(previewUnit);
         previewUnit = null;
         currentButton = null;
+
         state = DeployState.None;
         confirmButton.gameObject.SetActive(false);
-        highlighter.Clear();
+        TileHighlighter.Instance.Clear();
         Destroy(dirButtons);
         Debug.Log("Юнит установлен");
     }
@@ -130,7 +131,7 @@ public class DeploySystem : MonoBehaviour
         }
         state = DeployState.None;
         confirmButton.gameObject.SetActive(false);
-        highlighter.Clear();
+        TileHighlighter.Instance.Clear();
         Debug.Log("Отмена деплоя");
     }
 }

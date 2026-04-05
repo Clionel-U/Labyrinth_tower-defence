@@ -11,7 +11,7 @@ public class HPBar : MonoBehaviour
 
     private EntityData entity;
 
-    private void Start()
+    public void Init()
     {
         entity = GetComponentInParent<EntityData>();
 

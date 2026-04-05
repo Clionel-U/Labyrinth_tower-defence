@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class TileHighlighter : MonoBehaviour
 {
+    public static TileHighlighter Instance;
+    void Awake() => Instance = this;
+
     public GameObject highlightPrefab;
-    public GridManager grid;
 
     public List<GameObject> highlights = new List<GameObject>();
 
@@ -13,16 +15,16 @@ public class TileHighlighter : MonoBehaviour
     {
         Clear();
 
-        for (int x = -10; x < 10; x++)
+        for (int x = -11; x < 7; x++)
         {
-            for (int y = -5; y < 5; y++)
+            for (int y = -7; y < 5; y++)
             {
                 Vector3 pos = new Vector3(x, y, 0);
 
-                if ((type == UnitType.Ranged  && grid.IsHighGround(pos)) || (type == UnitType.Melee && grid.IsGround(pos)))
+                if ((type == UnitType.Ranged  && GridManager.Instance.IsHighGround(pos)) || (type == UnitType.Melee && GridManager.Instance.IsGround(pos)))
                 {
-                    pos = grid.GetCellCenter(pos);
-                    if (!grid.occupiedPositions.Contains(pos))
+                    pos = GridManager.Instance.GetCellCenter(pos);
+                    if (!GridManager.Instance.occupiedPositions.Contains(pos))
                     {
                         GameObject h = Instantiate(highlightPrefab, pos, Quaternion.identity);
                         highlights.Add(h);

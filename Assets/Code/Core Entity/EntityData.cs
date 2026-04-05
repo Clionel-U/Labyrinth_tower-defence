@@ -24,6 +24,11 @@ public class EntityData : MonoBehaviour
     public UnitType unitType;
     public int cost; //стоимость юнита, влияет на то, сколько "бития" нужно для его призыва
 
+    public GameObject HPBarPrefab;
+    private GameObject healthBar;
+    public GameObject SPBarPrefab;
+    private GameObject skillBar;
+
     [Space]
     [Header("Unit Attributes")] //атрибуты, специфичные для юнитов
     public int maxBlock; //макс. блок, влияет на то, сколько врагов может заблокировать юнит одновременно
@@ -43,6 +48,25 @@ public class EntityData : MonoBehaviour
 
     private void OnEnable()
     {
+        //HP bar
+        Vector3 pos = transform.position;
+        pos.x -= 0.45f;
+        pos.y -= 0.3498f;
+        healthBar = Instantiate(HPBarPrefab, pos, Quaternion.identity);
+        healthBar.transform.SetParent(transform);
+        healthBar.GetComponent<HPBar>().Init();
+
+        //SP bar
+        if (entityType == EntityType.Unit)
+        {
+            pos = transform.position;
+            pos.x -= 0.45f;
+            pos.y -= 0.42f;
+            skillBar = Instantiate(SPBarPrefab, pos, Quaternion.identity);
+            skillBar.transform.SetParent(transform);
+            //skillBar.GetComponent<SPBar>().Init();
+        }
+
         HP = maxHP;
         OnHPChanged?.Invoke(HP, maxHP);
         ATK = baseATK;
@@ -71,7 +95,11 @@ public class EntityData : MonoBehaviour
     {
         OnHPChanged = null;
         OnDeath = null;
-        GridManager.Instance?.occupiedPositions.Remove(occupiedCell);
-        BitiumSystem.Instance?.BitiumChange();
+
+        if (entityType == EntityType.Unit)
+        {
+            GridManager.Instance?.occupiedPositions.Remove(occupiedCell);
+            BitiumSystem.Instance?.BitiumChange();
+        }
     }
 }

@@ -7,16 +7,15 @@ using TMPro;
 
 public class UnitButton : MonoBehaviour
 {
-    public Image icon;
 
     public GameObject unit;
-    public DeploySystem deploySystem;
-    public BitiumSystem bitiumSystem;
     public Button button;
+    public Image icon;
     public int cost;
     public TMP_Text costText;
 
     public GameObject spawnedUnit;
+    public EntityData spawnedUnitData;
     public GameObject deployedOverlay;   // зелёная виньетка
     public GameObject skillReadyIcon;   // иконка скилла
 
@@ -24,17 +23,16 @@ public class UnitButton : MonoBehaviour
     public float redeploymentTimer;
     public bool onCD;
 
-    public void Init(GameObject _unit, DeploySystem depSys, BitiumSystem bitSys)
+    public void Init(GameObject _unit)
     {   
         deployedOverlay.SetActive(false);
         unit = _unit;
-        deploySystem = depSys;
-        bitiumSystem = bitSys;
-        bitiumSystem.OnBitiumChanged += UpdateButton;
-        EntityData data = unit.GetComponent<EntityData>();
-        icon.sprite = data.icon;
-        cost = data.cost;
-        redeployTime = data.redeployTime;
+
+        BitiumSystem.Instance.OnBitiumChanged += UpdateButton;
+        spawnedUnitData = unit.GetComponent<EntityData>();
+        icon.sprite = spawnedUnitData.icon;
+        cost = spawnedUnitData.cost;
+        redeployTime = spawnedUnitData.redeployTime;
         costText.text = cost.ToString();
         UpdateButton();
     }
@@ -44,7 +42,7 @@ public class UnitButton : MonoBehaviour
         if (spawnedUnit == null)
         {
             UnitUIManager.Instance.Close();
-            deploySystem.SelectUnit(unit, this);
+            DeploySystem.Instance.SelectUnit(unit, this);
         }
         else
         {
@@ -54,39 +52,42 @@ public class UnitButton : MonoBehaviour
 
     void UpdateButton()
     {
+        if (DeployLimit.Instance.currentLimit <= 0)
+        {
+            button.interactable = false;
+            return;
+        }
         if (onCD)
         {
             button.interactable = false;
             return;
         }
         if (spawnedUnit == null)
-        button.interactable = cost <= bitiumSystem.bitium;
+        button.interactable = cost <= BitiumSystem.Instance.bitium;
     }
 
     public void SetDeployed(GameObject unitInstance)
     {
-        spawnedUnit = unitInstance;
+        spawnedUnit = Instantiate(unit, unitInstance.transform.position, unitInstance.transform.rotation);
         deployedOverlay.SetActive(true);
+
         EntityData data = spawnedUnit.GetComponent<EntityData>();
         data.OnDeath += ClearDeployed;
+
+        Vector3 pos = spawnedUnit.transform.position;
+        data.occupiedCell = pos;
+        GridManager.Instance.occupiedPositions.Add(pos);
+        DeployLimit.Instance.MinusLimit();
     }
 
     public void ClearDeployed()
     {
-        EntityData data;
+        spawnedUnitData.OnDeath -= ClearDeployed;
 
-        if (spawnedUnit != null)
-        {
-            data = spawnedUnit.GetComponent<EntityData>();
-            if (data != null)
-            {
-                data.OnDeath -= ClearDeployed;
-            }
-        }
-       
         spawnedUnit = null;
         deployedOverlay.SetActive(false);
         StartRedeployCD();
+        DeployLimit.Instance.PlusLimit();
     }
 
     public void StartRedeployCD()

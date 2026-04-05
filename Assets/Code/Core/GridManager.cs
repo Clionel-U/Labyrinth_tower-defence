@@ -6,16 +6,12 @@ using UnityEngine.Tilemaps;
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance;
+    void Awake() => Instance = this;
 
     public Tilemap groundTilemap;
     public Tilemap highGroundTilemap;
     public Tilemap otherTilemap;
     [SerializeField] public HashSet<Vector3> occupiedPositions = new HashSet<Vector3>();
-
-    void Awake()
-    {
-        Instance = this;
-    }
 
     public bool IsGround(Vector3 worldPos)
     {

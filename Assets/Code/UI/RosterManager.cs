@@ -7,8 +7,6 @@ public class RosterManager : MonoBehaviour
 {
     public Transform rosterContainer;
     public GameObject buttonPrefab;
-    public DeploySystem deploySystem;
-    public BitiumSystem bitiumSystem;
     public SelectionList selectionList;
 
     void Start()
@@ -37,7 +35,7 @@ public class RosterManager : MonoBehaviour
             GameObject btnObj = Instantiate(buttonPrefab, rosterContainer);
 
             UnitButton btn = btnObj.GetComponent<UnitButton>();
-            btn.Init(unit, deploySystem, bitiumSystem);
+            btn.Init(unit);
         }
     }
 }

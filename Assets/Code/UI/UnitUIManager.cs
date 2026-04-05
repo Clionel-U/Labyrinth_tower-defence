@@ -58,9 +58,8 @@ public class UnitUIManager : MonoBehaviour
     {
         if (currentUnit == null) return;
 
-        Destroy(currentUnit);
-
         currentButton.ClearDeployed();
+        Destroy(currentUnit);
 
         Close();
     }
