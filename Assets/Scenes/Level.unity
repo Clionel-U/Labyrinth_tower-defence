@@ -6720,10 +6720,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedUnits:
-  - {fileID: 796389155587041383, guid: 70154287591efff4a99aca7f6a6754d1, type: 3}
-  - {fileID: 4293483218021520916, guid: 8eba84fd444ca364ea562d502e98de1e, type: 3}
-  - {fileID: 3212769269534626910, guid: 9321573e5c590e04ab7c5093667f7cd8, type: 3}
-  - {fileID: 4293483218021520916, guid: 3506e9cff39e2f2409fcf6dd30372d04, type: 3}
+  - {fileID: 7670937776152705727, guid: eb72b4358b5640a419b398690a730b54, type: 3}
+  - {fileID: 1486287738903729482, guid: 4cb6e029601e745439f86cd6b335065a, type: 3}
+  - {fileID: 4057329305362962192, guid: a48f617815d7084468d2d76cf5f06d19, type: 3}
+  - {fileID: 1041891717233362019, guid: 9ed9bcda6a14c7a409ada3b7e27427d6, type: 3}
 --- !u!4 &1495373381
 Transform:
   m_ObjectHideFlags: 0
@@ -8150,6 +8150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetsInRange: []
+  doubleAttack: 0
 --- !u!114 &1841520276955505999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8182,6 +8183,7 @@ MonoBehaviour:
   occupiedCell: {x: 0, y: 0, z: 0}
   blockNeed: 0
   speed: 0
+  enemyType: 0
 --- !u!1001 &1871697037961306425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8364,19 +8366,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetList: {fileID: 1412711183586131398}
   targets: 0
---- !u!114 &4280031647760190266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6106641648704034438}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0d2d134ead439d4a81c4936f5ce8ca5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SP: 0
+  canAttackGround: 1
+  canAttackAir: 0
 --- !u!1001 &4554412554051209534
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8531,7 +8522,6 @@ GameObject:
   - component: {fileID: 1841520276955505999}
   - component: {fileID: 1412711183586131398}
   - component: {fileID: 7576396119797223211}
-  - component: {fileID: 4280031647760190266}
   m_Layer: 0
   m_Name: Unit (Melee) (1)
   m_TagString: Unit

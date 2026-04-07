@@ -7,6 +7,7 @@ using UnityEngine;
 public class AttackTargetInRange : MonoBehaviour
 {
     public List<EntityData> targetsInRange = new List<EntityData>();
+    public bool doubleAttack = false;
 
     private EntityData self;
     private float cooldown = 0f;
@@ -19,27 +20,46 @@ public class AttackTargetInRange : MonoBehaviour
 
     private void Update()
     {
-        // уменьшаем кулдаун если он есть
-        if (cooldown > 0f)
+        if (cooldown > 0f) // уменьшаем кулдаун если он есть
             cooldown -= Time.deltaTime;
 
-        // чистим список
-        targetsInRange.RemoveAll(t => t == null);
+        targetsInRange.RemoveAll(t => t == null); // чистим список
 
-        // если нет врагов Ч ничего не делаем
-        if (targetsInRange.Count == 0) return;
+        if (targetsInRange.Count == 0) return; // если нет врагов Ч ничего не делаем
+                
+        if (cooldown > 0f) return; // если кд не прошЄл Ч не атакуем
 
-        // если кд не прошЄл Ч не атакуем
-        if (cooldown > 0f) return;
+        EntityData target = targetsInRange[0]; // выбираем цель
 
-        // выбираем цель
-        EntityData target = targetsInRange[0];
+        if (doubleAttack)
+        {
+            // ѕервый хит Ч физический
+            AtkType originalType = self.atkType;
 
-        // атакуем
-        int dmg = Damage.Calculate(self, target);
-        target.TakeDamage(dmg);
+            self.atkType = AtkType.Physical;
+            int physDmg = Damage.Calculate(self, target);
+            target.TakeDamage(physDmg);
 
-        // запускаем кулдаун после атаки
-        cooldown = self.attackInterval;
+            // ¬торой хит Ч магический (только если цель ещЄ жива)
+            if (target != null)
+            {
+                self.atkType = AtkType.Magical;
+                int magDmg = Damage.Calculate(self, target);
+                target.TakeDamage(magDmg);
+            }
+                        
+            self.atkType = originalType; // ¬осстанавливаем оригинальный тип атаки
+        }
+        else
+        {
+            int dmg = Damage.Calculate(self, target);
+            target.TakeDamage(dmg);
+        }
+
+        cooldown = self.attackInterval; // запускаем кулдаун после атаки
+
+        Skill skill = GetComponent<Skill>();
+        if (skill != null && skill.spChargeType == SPChargeType.PerAttack)
+            skill.ChargePerAttack();
     }
 }

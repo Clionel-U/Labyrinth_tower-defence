@@ -8,6 +8,10 @@ public class Range : MonoBehaviour
     public EntityType targets; //тег, который определяет, кого считать врагами (для юнитов это "Enemy", для врагов это "Unit")
     private EntityData self;
 
+    // Какие типы врагов может атаковать этот юнит
+    public bool canAttackGround = true;
+    public bool canAttackAir;
+
     private void OnEnable() //при активации объекта, очищаем список врагов в радиусе и устанавливаем тег для определения врагов
     {
         targetList.targetsInRange.Clear();
@@ -23,6 +27,7 @@ public class Range : MonoBehaviour
     {
         EntityData entity = other.GetComponent<EntityData>();
         if (entity == null || entity.entityType != targets) return;
+        if (!CanTarget(entity)) return;
 
         if (!targetList.targetsInRange.Contains(entity))
         {
@@ -36,7 +41,16 @@ public class Range : MonoBehaviour
         
         targetList.targetsInRange.Remove(entity);
     }
-    
+
+    public bool CanTarget(EntityData entity)
+    {
+        if (entity.entityType == EntityType.Enemy)
+        {
+            if (entity.enemyType == EnemyType.Ground && !canAttackGround) return false;
+            if (entity.enemyType == EnemyType.Air && !canAttackAir) return false;
+        }
+        return true;
+    }
 }
 
 //private void OnTriggerEnter2D(Collider2D other) //когда другой объект входит в радиус, проверяем его тег. если он соответствует тегу, то пытаемся получить его атрибуты и, если врага еще нет в списке, добавить в список врагов в радиусе

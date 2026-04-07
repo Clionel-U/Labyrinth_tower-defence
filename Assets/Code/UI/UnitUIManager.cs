@@ -48,7 +48,7 @@ public class UnitUIManager : MonoBehaviour
         if (currentUnit == null) return;
 
         Skill skill = currentUnit.GetComponent<Skill>();
-        if (skill != null)
+        if (skill != null && skill.activationType != ActivationType.OnDeploy)
         {
             skill.Activate(); 
         }

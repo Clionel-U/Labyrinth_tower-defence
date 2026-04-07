@@ -42,6 +42,7 @@ public class EntityData : MonoBehaviour
     [Header("Enemy Attributes")] //атрибуты, специфичные для врагов
     public int blockNeed; //требуемый блок для блокировки врага, влияет на то, может ли юнит его заблокировать
     public float speed; //скорость врага, влияет на его движение по пути и на анимацию
+    public EnemyType enemyType;
 
     public System.Action<int, int> OnHPChanged; // current, max, для обновления HP бара и других UI элементов, зависящих от здоровья
     public System.Action OnDeath; // для обработки смерти юнита или врага, например, для удаления из списка врагов в радиусе атаки
@@ -64,7 +65,9 @@ public class EntityData : MonoBehaviour
             pos.y -= 0.42f;
             skillBar = Instantiate(SPBarPrefab, pos, Quaternion.identity);
             skillBar.transform.SetParent(transform);
-            //skillBar.GetComponent<SPBar>().Init();
+            Skill skill = GetComponent<Skill>();
+            if (skill != null)
+                skillBar.GetComponent<SPBar>().Init(skill);
         }
 
         HP = maxHP;
@@ -83,6 +86,12 @@ public class EntityData : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void Heal(int amount)
+    {
+        HP = Mathf.Min(HP + amount, maxHP);
+        OnHPChanged?.Invoke(HP, maxHP);
     }
 
     private void Die()

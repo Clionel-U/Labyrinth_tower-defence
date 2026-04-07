@@ -3,116 +3,144 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Skill : MonoBehaviour
+public enum SPChargeType
 {
-    public int SP;
+    PerSecond,  // каждую секунду (Арсенал, Раздор, Нейросимфония и др.)
+    PerAttack,  // каждую атаку юнита (Метаморфоза, Препарат NT-X7, Магические пули)
+    None        // SP нет (Мученица — активируется при деплое)
+}
+
+public enum ActivationType
+{
+    Manual,     // ручная активация игроком
+    Auto,       // автоматически когда SP заполнен
+    OnDeploy    // один раз при деплое
+}
+
+public abstract class Skill : MonoBehaviour
+{
+    [Header("Настройки SP")]
+    public SPChargeType spChargeType;
+    public ActivationType activationType;
+    public float maxSP = 10f;
+    public float currentSP = 0f;
+
+    [Header("Длительность")]
+    public bool hasDuration;        // есть ли ограниченная длительность
+    public float duration;          // секунды (0 = бесконечно пока не выключат)
+    public bool canToggleOff;       // можно ли выключить вручную (Метаморфоза)
+
+    [Header("Состояние")]
+    public bool isActive = false;
+    public float durationTimer = 0f;
+
+    protected EntityData self;
+    protected AttackTargetInRange targetList;
+
+    public System.Action OnSPChanged;   // для UI полоски SP
+    public System.Action OnActivated;
+    public System.Action OnDeactivated;
+
+    protected virtual void Awake()
+    {
+        self = GetComponent<EntityData>();
+        targetList = GetComponent<AttackTargetInRange>();
+    }
+
+    protected virtual void Start()
+    {
+        // Мученица — активируется сразу при деплое
+        if (activationType == ActivationType.OnDeploy)
+            Activate();
+    }
+
+    protected virtual void Update()
+    {
+        if (isActive && hasDuration)
+        {
+            durationTimer -= Time.deltaTime;
+            if (durationTimer <= 0f)
+                Deactivate();
+        }
+
+        // Зарядка SP по времени — прямо здесь, не в дочерних классах
+        if (!isActive && spChargeType == SPChargeType.PerSecond)
+            ChargePerSecond();
+
+        // Авто-активация
+        if (!isActive && activationType == ActivationType.Auto)
+        {
+            if (currentSP >= maxSP)
+                Activate();
+        }
+    }
+
+    //  Зарядка SP 
+
+    // Вызывается из Update скилла (для PerSecond)
+    protected void ChargePerSecond()
+    {
+        if (isActive) return; // во время скилла SP не копится
+        AddSP(Time.deltaTime);
+    }
+
+    // Вызывается из AttackTargetInRange когда юнит атакует (для PerAttack)
+    public void ChargePerAttack(float amount = 1f)
+    {
+        if (isActive) return;
+        AddSP(amount);
+    }
+
+    public void AddSP(float amount)
+    {
+        if (isActive) return;
+        currentSP = Mathf.Min(currentSP + amount, maxSP);
+        OnSPChanged?.Invoke();
+
+        if (activationType == ActivationType.Auto && currentSP >= maxSP)
+            Activate();
+    }
+
+    //  Активация / деактивация 
+
     public void Activate()
     {
-        Debug.Log("Skill activated");
+        // Toggle-скиллы (Метаморфоза)
+        if (isActive && canToggleOff)
+        {
+            Deactivate();
+            return;
+        }
 
-        // пример
-        SP = 0;
+        if (isActive) return;
+        
+        // Ручная активация требует полного SP
+        if (activationType == ActivationType.Manual && currentSP < maxSP) return;
+        
 
-        // тут логика скилла
+        isActive = true;
+
+        if (hasDuration)
+            durationTimer = duration;
+
+        if (activationType != ActivationType.OnDeploy)
+            currentSP = 0f;
+
+        OnSPChanged?.Invoke();
+        OnActivated?.Invoke();
+        OnSkillActivate();
     }
-    //public int SP;
-    //public int maxSP = 10;
 
-    //public EntityData unit;
+    public void Deactivate()
+    {
+        isActive = false;
+        durationTimer = 0f;
+        OnDeactivated?.Invoke();
+        OnSkillDeactivate();
+    }
 
-    //private Coroutine SPgainCoroutine;
-    //private bool skillReady = false;
-    //private bool skillActive = false;
+    //  Переопределяются в каждом скилле 
 
-    //private void Start()
-    //{
-    //    unit = GetComponent<EntityData>();
-    //    SPgainCoroutine = StartCoroutine(SPgain());
-    //}
-
-    //IEnumerator SPgain()
-    //{
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(1);
-
-    //        SP++;
-
-    //        if (SP >= maxSP)
-    //        {
-    //            SP = maxSP;
-    //            skillReady = true;
-
-    //            StopCoroutine(SPgainCoroutine);
-    //            SPgainCoroutine = null;
-
-    //            yield break; // ВАЖНО!
-    //        }
-    //    }
-    //}
-
-    //public void ActivateSkill()
-    //{
-    //    if (!skillReady || skillActive) return;
-
-    //    StartCoroutine(SkillActive());
-    //}
-
-    //IEnumerator SkillActive()
-    //{
-    //    skillActive = true;
-    //    skillReady = false;
-
-    //    int buff = unit.baseATK;
-    //    unit.ATK += buff;
-
-    //    yield return new WaitForSeconds(5);
-
-    //    unit.ATK -= buff;
-
-    //    SP = 0;
-    //    skillActive = false;
-
-    //    SPgainCoroutine = StartCoroutine(SPgain());
-    //}
-
-
-    //public int SP;
-    //public EntityData unit;
-    //private Coroutine SPgainCoroutine;
-
-    //private void Start()
-    //{
-    //    unit = GetComponent<EntityData>();
-    //    SPgainCoroutine = StartCoroutine(SPgain());
-    //}
-
-    //void Update()
-    //{
-    //    if (SP >= 10)
-    //    {
-    //        StopCoroutine(SPgainCoroutine);
-    //        SP = 0;
-    //        StartCoroutine(SkillActive(unit));
-
-    //    }
-    //}
-
-    //IEnumerator SPgain()
-    //{
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(1);
-    //        SP += 1;
-    //    }
-    //}
-
-    //IEnumerator SkillActive(EntityData unit)
-    //{
-    //    int buff = unit.ATK;
-    //    unit.ATK += buff;
-    //    yield return new WaitForSeconds(5);
-    //    unit.ATK -= buff;
-    //    SPgainCoroutine = StartCoroutine(SPgain());
-    //}
+    protected abstract void OnSkillActivate();
+    protected virtual void OnSkillDeactivate() { }
 }
