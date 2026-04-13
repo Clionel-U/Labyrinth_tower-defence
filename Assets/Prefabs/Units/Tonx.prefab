@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 566169872069587566}
   - component: {fileID: 5171599698291800118}
   - component: {fileID: 7380174055378983496}
+  - component: {fileID: 3124566007035999652}
   m_Layer: 0
   m_Name: Tonx
   m_TagString: Untagged
@@ -185,18 +186,21 @@ MonoBehaviour:
   DEF: 0
   RES: 0
   attackInterval: 1
-  atkType: 1
-  unitType: 1
   cost: 11
+  atkType: 1
   HPBarPrefab: {fileID: 6112245212890964442, guid: 3d9c495c2ff560e4e92be989cc13e3b9, type: 3}
   SPBarPrefab: {fileID: 1012446034297139598, guid: 5fa7fd35fe8915b47bcd97e13a825ec4, type: 3}
   maxBlock: 0
   redeployTime: 0
+  unitType: 1
+  unitID: 4
   occupiedCell: {x: 0, y: 0, z: 0}
   healBonus: 0
   blockNeed: 0
   speed: 0
   enemyType: 0
+  isBoss: 0
+  isInvulnerable: 0
 --- !u!114 &566169872069587566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +254,20 @@ MonoBehaviour:
   slowPercent: 0.5
   effectDuration: 3
   poisonTickInterval: 0.9
+--- !u!114 &3124566007035999652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041891717233362019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a4d3986dc8b88469be711e64a0e27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0.3
+  spawnColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &4017497110542152994
 GameObject:
   m_ObjectHideFlags: 0

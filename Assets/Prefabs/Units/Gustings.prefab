@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2067673475402406736}
   - component: {fileID: 361809380810668044}
   - component: {fileID: 5117057963368050223}
+  - component: {fileID: 4181350588796580075}
   m_Layer: 0
   m_Name: Gustings
   m_TagString: Untagged
@@ -180,23 +181,26 @@ MonoBehaviour:
   entityType: 0
   HP: 0
   maxHP: 500
-  ATK: 0
+  ATK: 100
   baseATK: 100
   DEF: 0
   RES: 0
   attackInterval: 1
-  atkType: 0
-  unitType: 1
   cost: 9
+  atkType: 0
   HPBarPrefab: {fileID: 6112245212890964442, guid: 3d9c495c2ff560e4e92be989cc13e3b9, type: 3}
   SPBarPrefab: {fileID: 1012446034297139598, guid: 5fa7fd35fe8915b47bcd97e13a825ec4, type: 3}
   maxBlock: 0
   redeployTime: 0
+  unitType: 1
+  unitID: 7
   occupiedCell: {x: 0, y: 0, z: 0}
   healBonus: 0
   blockNeed: 0
   speed: 0
   enemyType: 0
+  isBoss: 0
+  isInvulnerable: 0
 --- !u!114 &361809380810668044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +242,20 @@ MonoBehaviour:
   normalSprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   normalRange: {fileID: 5522177952431239889}
   skillRange: {fileID: 6760505871370110529}
+--- !u!114 &4181350588796580075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769554904317893531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a4d3986dc8b88469be711e64a0e27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0.3
+  spawnColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &5522177952431239889
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6031904647114761186}
   - component: {fileID: 6810129847895021115}
   - component: {fileID: 2616832181835480794}
+  - component: {fileID: 5637030552484598675}
   m_Layer: 0
   m_Name: Coel
   m_TagString: Untagged
@@ -177,25 +178,28 @@ MonoBehaviour:
   _name: "\u041A\u043E\u044D\u043B"
   icon: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
   entityType: 0
-  HP: 0
+  HP: 250
   maxHP: 500
-  ATK: 0
+  ATK: 100
   baseATK: 100
   DEF: 0
   RES: 0
   attackInterval: 1
-  atkType: 1
-  unitType: 1
   cost: 4
+  atkType: 1
   HPBarPrefab: {fileID: 6112245212890964442, guid: 3d9c495c2ff560e4e92be989cc13e3b9, type: 3}
   SPBarPrefab: {fileID: 1012446034297139598, guid: 5fa7fd35fe8915b47bcd97e13a825ec4, type: 3}
   maxBlock: 0
   redeployTime: 10
+  unitType: 1
+  unitID: 9
   occupiedCell: {x: 0, y: 0, z: 0}
   healBonus: 0
   blockNeed: 0
   speed: 0
   enemyType: 0
+  isBoss: 0
+  isInvulnerable: 0
 --- !u!114 &6810129847895021115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +239,20 @@ MonoBehaviour:
   explosionDamageMultiplier: 3
   stopDuration: 5
   damageType: 1
+--- !u!114 &5637030552484598675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266295224453847938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a4d3986dc8b88469be711e64a0e27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0.3
+  spawnColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &8528228707312761517
 GameObject:
   m_ObjectHideFlags: 0

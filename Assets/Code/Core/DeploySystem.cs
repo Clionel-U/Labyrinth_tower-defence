@@ -40,7 +40,8 @@ public class DeploySystem : MonoBehaviour
             CancelDeploy();
             return;
         }
-        selectedUnit = unitPrefab;
+        else if (state != DeployState.None) CancelDeploy();
+            selectedUnit = unitPrefab;
         currentButton = button;
 
         EntityData selUnitData = selectedUnit.GetComponent<EntityData>();
@@ -117,6 +118,7 @@ public class DeploySystem : MonoBehaviour
         TileHighlighter.Instance.Clear();
         Destroy(dirButtons);
         Debug.Log("Юнит установлен");
+        UnitUIManager.Instance.Close();
     }
 
     public void CancelDeploy()

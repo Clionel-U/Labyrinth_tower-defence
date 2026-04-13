@@ -17,8 +17,8 @@ public class Stripes : MonoBehaviour
 
     void Update()
     {
-        offset.x += speedX * Time.deltaTime;
-        offset.y += speedY * Time.deltaTime;
+        offset.x += speedX * Time.unscaledDeltaTime;
+        offset.y += speedY * Time.unscaledDeltaTime;
 
         mat.mainTextureOffset = offset;
     }

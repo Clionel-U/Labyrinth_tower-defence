@@ -24,7 +24,7 @@ public class WaveManager : MonoBehaviour
     void Awake() => Instance = this;
 
     public System.Action OnAllWavesCompleted;
-    public System.Action OnReachedGoal;
+    public System.Action<int> OnReachedGoal;
 
     [Header("Волны")]
     public List<WaveData> waves = new List<WaveData>();
@@ -126,9 +126,12 @@ public class WaveManager : MonoBehaviour
     {   
         activeEnemies--;
         killedEnemies++;
-        OnReachedGoal?.Invoke();
+        if (enemy.GetComponent<EntityData>().isBoss)
+        {
+            OnReachedGoal?.Invoke(10);
+        }
+        else OnReachedGoal?.Invoke(1);
         UpdateKillCounter();
-        // TODO: BaseManager.Instance.TakeDamage(...)
     }
 
     void UpdateKillCounter()

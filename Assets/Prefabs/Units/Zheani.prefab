@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1607123228669945989}
   - component: {fileID: 207313880384055728}
   - component: {fileID: 4471970500064484897}
+  - component: {fileID: 119756947885734958}
   m_Layer: 0
   m_Name: Zheani
   m_TagString: Untagged
@@ -185,18 +186,21 @@ MonoBehaviour:
   DEF: 0
   RES: 0
   attackInterval: 1
-  atkType: 0
-  unitType: 0
   cost: 14
+  atkType: 0
   HPBarPrefab: {fileID: 6112245212890964442, guid: 3d9c495c2ff560e4e92be989cc13e3b9, type: 3}
   SPBarPrefab: {fileID: 1012446034297139598, guid: 5fa7fd35fe8915b47bcd97e13a825ec4, type: 3}
   maxBlock: 3
   redeployTime: 0
+  unitType: 0
+  unitID: 3
   occupiedCell: {x: 0, y: 0, z: 0}
   healBonus: 0
   blockNeed: 0
   speed: 0
   enemyType: 0
+  isBoss: 0
+  isInvulnerable: 0
 --- !u!114 &207313880384055728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +240,20 @@ MonoBehaviour:
   damagePercent: 0.6
   hitCount: 3
   skillAtk: 0
+--- !u!114 &119756947885734958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4057329305362962192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a4d3986dc8b88469be711e64a0e27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0.3
+  spawnColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &4657878087307529672
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,6 +37,7 @@ public class EntityData : MonoBehaviour
 
 
     [Header("Unit Technical")]
+    public int unitID;
     public Vector3 occupiedCell;
     public float healBonus = 0;
 

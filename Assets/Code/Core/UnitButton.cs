@@ -41,13 +41,10 @@ public class UnitButton : MonoBehaviour
     {
         if (spawnedUnit == null)
         {
-            UnitUIManager.Instance.Close();
             DeploySystem.Instance.SelectUnit(unit, this);
+            UnitUIManager.Instance.Open(unit, this, false);
         }
-        else
-        {
-            UnitUIManager.Instance.Open(spawnedUnit, this);
-        }
+        else UnitUIManager.Instance.Open(spawnedUnit, this, true);
     }
 
     void UpdateButton()
@@ -83,7 +80,7 @@ public class UnitButton : MonoBehaviour
     public void ClearDeployed()
     {
         spawnedUnitData.OnDeath -= ClearDeployed;
-
+        UnitUIManager.Instance.Close();
         spawnedUnit = null;
         deployedOverlay.SetActive(false);
         StartRedeployCD();

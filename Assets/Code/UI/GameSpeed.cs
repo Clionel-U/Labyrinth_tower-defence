@@ -12,7 +12,13 @@ public class GameSpeed : MonoBehaviour
     public Sprite play;
     float speedOfTime = 1;
     public TMP_Text testText;
+    public GameObject pauseOverlay;
 
+    private void Awake()
+    {
+        Time.timeScale = 1;
+        speedText.text = "X1";
+    }
     public void ChangeSpeed()
     {
         if (Time.timeScale == 1)
@@ -34,11 +40,13 @@ public class GameSpeed : MonoBehaviour
             speedOfTime = Time.timeScale;
             Time.timeScale = 0;
             pauseButton.sprite = play;
+            pauseOverlay.SetActive(true);
         }
         else
         {
             Time.timeScale = speedOfTime;
             pauseButton.sprite = pause;
+            pauseOverlay.SetActive(false);
         }
     }
 

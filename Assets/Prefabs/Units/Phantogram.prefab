@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 1898513341512791558}
   - component: {fileID: 5292044047725591540}
   - component: {fileID: 4331766218697441903}
+  - component: {fileID: 2853587640553524719}
   m_Layer: 0
   m_Name: Phantogram
   m_TagString: Untagged
@@ -330,18 +331,20 @@ MonoBehaviour:
   DEF: 0
   RES: 0
   attackInterval: 1
-  atkType: 1
-  unitType: 1
   cost: 3
+  atkType: 1
   HPBarPrefab: {fileID: 6112245212890964442, guid: 3d9c495c2ff560e4e92be989cc13e3b9, type: 3}
   SPBarPrefab: {fileID: 1012446034297139598, guid: 5fa7fd35fe8915b47bcd97e13a825ec4, type: 3}
   maxBlock: 0
   redeployTime: 10
+  unitType: 1
   occupiedCell: {x: 0, y: 0, z: 0}
   healBonus: 0
   blockNeed: 0
   speed: 0
   enemyType: 0
+  isBoss: 0
+  isInvulnerable: 0
 --- !u!114 &5292044047725591540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,3 +383,17 @@ MonoBehaviour:
   durationTimer: 0
   vortexPrefab: {fileID: 3329363645944962263, guid: dba423332fa37f34eb3e45381a89b612, type: 3}
   damageMultiplier: 0.5
+--- !u!114 &2853587640553524719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7917256174051251854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a4d3986dc8b88469be711e64a0e27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0.3
+  spawnColor: {r: 0, g: 0, b: 0, a: 1}

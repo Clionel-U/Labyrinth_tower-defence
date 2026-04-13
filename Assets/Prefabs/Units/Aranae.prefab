@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1454338428445681244}
   - component: {fileID: 7131834225879953356}
   - component: {fileID: 3888022969009091447}
+  - component: {fileID: 722494723783140779}
   m_Layer: 0
   m_Name: Aranae
   m_TagString: Untagged
@@ -179,25 +180,28 @@ MonoBehaviour:
   _name: "\u0410\u0440\u0430\u043D\u0435\u0439"
   icon: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
   entityType: 0
-  HP: 0
+  HP: 500
   maxHP: 500
-  ATK: 0
+  ATK: 100
   baseATK: 100
   DEF: 0
   RES: 0
   attackInterval: 1
-  atkType: 0
-  unitType: 0
   cost: 12
+  atkType: 0
   HPBarPrefab: {fileID: 6112245212890964442, guid: 3d9c495c2ff560e4e92be989cc13e3b9, type: 3}
   SPBarPrefab: {fileID: 1012446034297139598, guid: 5fa7fd35fe8915b47bcd97e13a825ec4, type: 3}
   maxBlock: 1
   redeployTime: 0
+  unitType: 0
+  unitID: 2
   occupiedCell: {x: 0, y: 0, z: 0}
   healBonus: 0
   blockNeed: 0
   speed: 0
   enemyType: 0
+  isBoss: 0
+  isInvulnerable: 0
 --- !u!114 &7131834225879953356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +241,20 @@ MonoBehaviour:
   block: {fileID: 5210101694791258865}
   normalRange: {fileID: 8138630250037542570}
   skillRange: {fileID: 2234621215386107411}
+--- !u!114 &722494723783140779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486287738903729482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a4d3986dc8b88469be711e64a0e27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0.3
+  spawnColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &2234621215386107411
 GameObject:
   m_ObjectHideFlags: 0

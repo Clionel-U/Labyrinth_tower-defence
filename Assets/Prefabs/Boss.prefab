@@ -345,6 +345,7 @@ GameObject:
   - component: {fileID: 4438821847527969196}
   - component: {fileID: 2458451679739119890}
   - component: {fileID: 1107089665691231449}
+  - component: {fileID: 5377061109927881670}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -631,3 +632,17 @@ MonoBehaviour:
   loveMax: 500
   hpTreshold: 1000
   explosionAtkMultiplier: 2
+--- !u!114 &5377061109927881670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7224110124251226123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a4d3986dc8b88469be711e64a0e27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0.3
+  spawnColor: {r: 0, g: 0, b: 0, a: 1}

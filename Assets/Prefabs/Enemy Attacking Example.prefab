@@ -325,6 +325,7 @@ GameObject:
   - component: {fileID: 3616996948870831212}
   - component: {fileID: 5891915958517133786}
   - component: {fileID: 6346636359565011645}
+  - component: {fileID: 1980568091155085669}
   m_Layer: 0
   m_Name: Enemy Attacking Example
   m_TagString: Untagged
@@ -538,3 +539,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stopped: 0
   stopDuration: 0
+--- !u!114 &1980568091155085669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7322875680117797503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a4d3986dc8b88469be711e64a0e27f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0.3
+  spawnColor: {r: 0, g: 0, b: 0, a: 1}
