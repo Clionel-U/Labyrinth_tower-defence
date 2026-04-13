@@ -7,42 +7,40 @@ public class UnitBlock : MonoBehaviour
 {
     private EntityData self;
     private AttackTargetInRange targetList;
-    [SerializeField]private int block;
+    [SerializeField] private int block;
 
     private void Awake()
     {
-        self = GetComponent<EntityData>();
-        targetList = GetComponent<AttackTargetInRange>();
+        self = GetComponentInParent<EntityData>();
+        targetList = GetComponentInParent<AttackTargetInRange>();
         block = self.maxBlock;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        EntityData enemy = other.GetComponent<EntityData>();
-        if (enemy == null) return;
+        EnemyBlock enemyBlock = other.GetComponent<EnemyBlock>();
+        if (enemyBlock == null) return;
 
-        if (enemy.entityType != EntityType.Enemy) return;
+        EntityData enemy = enemyBlock.self;
+        if (enemy == null || enemy.entityType != EntityType.Enemy) return;
 
-        TryBlock(enemy);
+        TryBlock(enemy, enemyBlock);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        EntityData enemy = other.GetComponent<EntityData>();
-        if (enemy == null) return;
+        EnemyBlock enemyBlock = other.GetComponent<EnemyBlock>();
+        if (enemyBlock == null) return;
 
-        if (enemy.entityType != EntityType.Enemy) return;
+        EntityData enemy = enemyBlock.self;
+        if (enemy == null || enemy.entityType != EntityType.Enemy) return;
 
-        Unblock(enemy);
+        Unblock(enemy, enemyBlock);
     }
 
-    public bool TryBlock(EntityData enemy)
+    public bool TryBlock(EntityData enemy, EnemyBlock enemyBlock)
     {
-        if (self.entityType != EntityType.Unit) return false;
-
-        EnemyBlock enemyBlock = enemy.GetComponent<EnemyBlock>();
-        
-        if (enemyBlock == null) return false;
+        if (enemyBlock == null || enemy == null) return false;
 
         // уже заблокирован
         if (enemyBlock.IsBlocked()) return false;
@@ -51,7 +49,7 @@ public class UnitBlock : MonoBehaviour
         if (block <= 0 || block < enemy.blockNeed) return false;
 
         //блок
-        enemyBlock.SetBlocker(self);
+        enemyBlock.SetBlocker(self, this);
         block -= enemy.blockNeed;
         
         // добавляем в начало списка целей юнита
@@ -61,10 +59,9 @@ public class UnitBlock : MonoBehaviour
         return true;
     }
 
-    public void Unblock(EntityData enemy)
+    public void Unblock(EntityData enemy, EnemyBlock enemyBlock)
     {
-        EnemyBlock enemyBlock = enemy.GetComponent<EnemyBlock>();
-        if (enemyBlock == null) return;
+        if (enemyBlock == null || enemy == null) return;
 
         if (enemyBlock.blocker == self)
         {

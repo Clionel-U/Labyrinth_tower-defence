@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Exit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public SceneFade sf;
+    public void Restart()
     {
-        
+        // Загружаем сцену с игрой
+        sf.ToScene(1);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ExitLevel()
     {
-        
+        sf.ToScene(0);
     }
 }

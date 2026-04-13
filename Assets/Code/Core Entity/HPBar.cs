@@ -22,7 +22,7 @@ public class HPBar : MonoBehaviour
 
     private void UpdateBar(int current, int max)
     {
-        float percent = max > 0 ? (float)current / max : 0f;
+        float percent = (float)current / max;
         percent = Mathf.Clamp01(percent);
 
         bar.localScale = new Vector3(percent, 0.07f, 1);

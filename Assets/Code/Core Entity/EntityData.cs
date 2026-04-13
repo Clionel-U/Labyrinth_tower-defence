@@ -10,45 +10,52 @@ public enum AtkType { Physical, Magical } //тип атаки, влияет на то, как рассчит
 public class EntityData : MonoBehaviour
 {
     [Header("Entity Attributes")] //общие атрибуты для юнитов и врагов
-    public string _name; //название
-    public Sprite icon; //иконка, для UI
-    public EntityType entityType; //тип сущности, юнит или враг, влияет на то, какие атрибуты у неё есть и как она взаимодействует с другими объектами
-    public int HP; //текущее здоровье, может изменяться в бою
-    public int maxHP; //максимальное базовое здоровье, нужно для восстановления здоровья и отображения HP бара
-    public int ATK; //текущая атака, может изменяться баффами и дебаффами
-    public int baseATK; //базовая атака, нужна для расчёта баффов от скиллов
-    public int DEF; //текущая защита, может изменяться баффами и дебаффами
-    public int RES; //текущая маг. защита, может изменяться баффами и дебаффами
-    public float attackInterval; //интервал между атаками, влияет на скорость атаки
+    public string _name;
+    public Sprite icon;
+    public EntityType entityType;
+    public int HP;
+    public int maxHP;
+    public int ATK;
+    public int baseATK;
+    public int DEF;
+    public int RES;
+    public float attackInterval;
+    public int cost;
+    [Space]
     public AtkType atkType;
-    public UnitType unitType;
-    public int cost; //стоимость юнита, влияет на то, сколько "бития" нужно для его призыва
 
     public GameObject HPBarPrefab;
     private GameObject healthBar;
     public GameObject SPBarPrefab;
     private GameObject skillBar;
 
-    [Space]
     [Header("Unit Attributes")] //атрибуты, специфичные для юнитов
-    public int maxBlock; //макс. блок, влияет на то, сколько врагов может заблокировать юнит одновременно
-    public int redeployTime; //время перезарядки после уничтожения, влияет на то, как быстро юнит может быть снова призван
+    public int maxBlock;
+    public int redeployTime;
 
-    [Space]
+    public UnitType unitType;
+
+
     [Header("Unit Technical")]
-    public Vector3 occupiedCell; // координаты клетки, которую занимает юнит, нужно для проверки занятости клеток и для удаления из списка занятых клеток при уничтожении юнита
+    public Vector3 occupiedCell;
+    public float healBonus = 0;
 
-    [Space]
     [Header("Enemy Attributes")] //атрибуты, специфичные для врагов
-    public int blockNeed; //требуемый блок для блокировки врага, влияет на то, может ли юнит его заблокировать
-    public float speed; //скорость врага, влияет на его движение по пути и на анимацию
+    public int blockNeed;
+    public float speed;
     public EnemyType enemyType;
 
-    public System.Action<int, int> OnHPChanged; // current, max, для обновления HP бара и других UI элементов, зависящих от здоровья
-    public System.Action OnDeath; // для обработки смерти юнита или врага, например, для удаления из списка врагов в радиусе атаки
+    [Header("Boss Settings")]
+    public bool isBoss;
+    public bool isInvulnerable = false;
+
+    public System.Action<int, int> OnHPChanged;
+    public System.Action OnDeath;
 
     private void OnEnable()
     {
+        if (entityType == EntityType.Enemy) AllEnemies.allEnemies.Add(this);
+
         //HP bar
         Vector3 pos = transform.position;
         pos.x -= 0.45f;
@@ -77,6 +84,8 @@ public class EntityData : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (isInvulnerable) return;
+
         HP -= damage;
         HP = Mathf.Max(HP, 0);
 
@@ -84,17 +93,29 @@ public class EntityData : MonoBehaviour
 
         if (HP <= 0)
         {
-            Die();
+            if (isBoss) GetComponent<BossCore>().HandleDeath();
+            else Die();
         }
+        else StartCoroutine(FlashRed());
+    }
+
+    IEnumerator FlashRed()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        Color originalColor = sr.color;
+        sr.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        sr.color = originalColor;
     }
 
     public void Heal(int amount)
     {
-        HP = Mathf.Min(HP + amount, maxHP);
+        int heal = Mathf.RoundToInt(amount * (1 + healBonus));
+        HP = Mathf.Min(HP + heal, maxHP);
         OnHPChanged?.Invoke(HP, maxHP);
     }
 
-    private void Die()
+    public void Die()
     {
         OnDeath?.Invoke();
         Destroy(gameObject);
@@ -110,5 +131,7 @@ public class EntityData : MonoBehaviour
             GridManager.Instance?.occupiedPositions.Remove(occupiedCell);
             BitiumSystem.Instance?.BitiumChange();
         }
+        
+        if (entityType == EntityType.Enemy) AllEnemies.allEnemies.Remove(this);
     }
 }

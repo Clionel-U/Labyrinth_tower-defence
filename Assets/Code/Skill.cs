@@ -17,6 +17,8 @@ public enum ActivationType
     OnDeploy    // один раз при деплое
 }
 
+
+
 public abstract class Skill : MonoBehaviour
 {
     [Header("Настройки SP")]
@@ -102,6 +104,10 @@ public abstract class Skill : MonoBehaviour
     }
 
     //  Активация / деактивация 
+    public virtual bool CanActivate()
+    {
+        return true;
+    }
 
     public void Activate()
     {
@@ -114,6 +120,8 @@ public abstract class Skill : MonoBehaviour
 
         if (isActive) return;
         
+        if (!CanActivate()) return;
+
         // Ручная активация требует полного SP
         if (activationType == ActivationType.Manual && currentSP < maxSP) return;
         

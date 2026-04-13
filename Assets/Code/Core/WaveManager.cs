@@ -23,6 +23,9 @@ public class WaveManager : MonoBehaviour
     public static WaveManager Instance;
     void Awake() => Instance = this;
 
+    public System.Action OnAllWavesCompleted;
+    public System.Action OnReachedGoal;
+
     [Header("Волны")]
     public List<WaveData> waves = new List<WaveData>();
 
@@ -123,6 +126,7 @@ public class WaveManager : MonoBehaviour
     {   
         activeEnemies--;
         killedEnemies++;
+        OnReachedGoal?.Invoke();
         UpdateKillCounter();
         // TODO: BaseManager.Instance.TakeDamage(...)
     }
@@ -135,6 +139,7 @@ public class WaveManager : MonoBehaviour
 
     void OnAllWavesComplete()
     {
+        OnAllWavesCompleted?.Invoke();
         Debug.Log("Все волны завершены!");
     }
 }

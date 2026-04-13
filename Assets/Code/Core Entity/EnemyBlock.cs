@@ -6,14 +6,15 @@ using UnityEngine;
 public class EnemyBlock : MonoBehaviour
 {
     public EntityData blocker; // кто блокирует врага
+    public UnitBlock blockerBlock;
 
-    private EntityData self;
+    public EntityData self;
     private AttackTargetInRange targetList;
 
     private void Awake()
     {
-        self = GetComponent<EntityData>();
-        targetList = GetComponent<AttackTargetInRange>();
+        self = GetComponentInParent<EntityData>();
+        targetList = GetComponentInParent<AttackTargetInRange>();
     }
 
     public bool IsBlocked()
@@ -21,9 +22,10 @@ public class EnemyBlock : MonoBehaviour
         return blocker != null;
     }
 
-    public void SetBlocker(EntityData unit)
+    public void SetBlocker(EntityData unit, UnitBlock block)
     {
         blocker = unit;
+        blockerBlock = block;
         // добавляем юнита в начало целей врага
         if (targetList != null)
         {
@@ -40,18 +42,12 @@ public class EnemyBlock : MonoBehaviour
         }
 
         blocker = null;
+        blockerBlock = null;
     }
 
     private void OnDestroy()
     {
-        if (blocker != null)
-        {
-            UnitBlock unitBlock = blocker.GetComponent<UnitBlock>();
-            if (unitBlock != null)
-            {
-                unitBlock.Unblock(self);
-            }
-        }
+        if (blocker != null && blockerBlock != null) blockerBlock.Unblock(self, this);
     }
 }
 

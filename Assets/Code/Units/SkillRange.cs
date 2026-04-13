@@ -6,7 +6,6 @@ public class SkillRange : MonoBehaviour
 {
     public TargetInRange targetList;
     public EntityType targets;
-    private EntityData self;
 
     public bool canAttackGround = true;
     public bool canAttackAir = true;
@@ -14,9 +13,6 @@ public class SkillRange : MonoBehaviour
     private void OnEnable() //при активации объекта, очищаем список врагов в радиусе и устанавливаем тег для определения врагов
     {
         targetList.targetsInRange.Clear();
-        self = GetComponentInParent<EntityData>();
-        
-        targets = EntityType.Enemy;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

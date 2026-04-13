@@ -10,8 +10,10 @@ public class AttackTargetInRange : MonoBehaviour
     public bool doubleAttack = false;
 
     private EntityData self;
-    private float cooldown = 0f;
+    public float cooldown = 0f;
     //private bool readyAttack = true;
+
+    public System.Action onAttack;
 
     private void Awake()
     {
@@ -30,6 +32,14 @@ public class AttackTargetInRange : MonoBehaviour
         if (cooldown > 0f) return; // если кд не прошЄл Ч не атакуем
 
         EntityData target = targetsInRange[0]; // выбираем цель
+
+        if (target.isInvulnerable)
+        {
+            if (targetsInRange.Count > 1)
+                target = targetsInRange[1]; // если перва€ цель неу€звима, пробуем вторую
+            else
+                return; // если второй цели нет Ч ничего не делаем
+        }
 
         if (doubleAttack)
         {
@@ -61,5 +71,7 @@ public class AttackTargetInRange : MonoBehaviour
         Skill skill = GetComponent<Skill>();
         if (skill != null && skill.spChargeType == SPChargeType.PerAttack)
             skill.ChargePerAttack();
+
+        onAttack?.Invoke();
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SkillTurret : Skill
 {
+    [Header("Блок")]
+    public GameObject block;
     private UnitBlock blockComp;
 
     [Header("Зоны атаки")]
@@ -23,7 +25,7 @@ public class SkillTurret : Skill
         canToggleOff = true;
         maxSP = 10f;
 
-        blockComp = GetComponent<UnitBlock>();
+        blockComp = block.GetComponent<UnitBlock>();
         normalRangeComp = normalRange.GetComponent<Range>();
         skillRangeComp = skillRange.GetComponent<Range>();
         skillRangeCollider = skillRange.GetComponent<BoxCollider2D>();
@@ -35,10 +37,10 @@ public class SkillTurret : Skill
     protected override void OnSkillActivate()
     {
         // Принудительно освобождаем всех заблокированных врагов
-        if (blockComp != null)
+        if (block != null)
         {
             ForceUnblockAll();
-            blockComp.enabled = false;
+            block.SetActive(false);
         }
 
         normalRangeComp.targetList.targetsInRange.Clear();
@@ -47,27 +49,20 @@ public class SkillTurret : Skill
         normalRange.SetActive(false);
         skillRange.SetActive(true);
 
-        // Включаем атаку по воздуху и земле
-        skillRangeComp.canAttackGround = true;
-        skillRangeComp.canAttackAir = true;
-
         RefreshTargetList(skillRangeComp, skillRangeCollider);
     }
 
     protected override void OnSkillDeactivate()
     {
         // Возвращаем блокировку
-        if (blockComp != null)
-            blockComp.enabled = true;
+        if (block != null)
+            block.SetActive(true);
 
         skillRangeComp.targetList.targetsInRange.Clear();
 
         // Возвращаем зоны
         skillRange.SetActive(false);
         normalRange.SetActive(true);
-
-        skillRangeComp.canAttackGround = true;
-        skillRangeComp.canAttackAir = false;
 
         RefreshTargetList(normalRangeComp, normalRange.GetComponent<BoxCollider2D>());
     }
@@ -77,7 +72,7 @@ public class SkillTurret : Skill
         foreach (var enemy in FindObjectsOfType<EnemyBlock>())
         {
             if (enemy.blocker == self)
-                blockComp.Unblock(enemy.GetComponent<EntityData>());
+                blockComp.Unblock(enemy.GetComponent<EntityData>(), enemy);
         }
     }
 

@@ -6,8 +6,10 @@ public class HealTargetInRange : MonoBehaviour
 {
     public List<EntityData> targetsInRange = new List<EntityData>();
 
+    public bool healAll;
+
     private EntityData self;
-    private float cooldown = 0f;
+    public float cooldown = 0f;
 
     private void Awake()
     {
@@ -25,31 +27,45 @@ public class HealTargetInRange : MonoBehaviour
 
         if (cooldown > 0f) return;
 
-        // Ищем союзника с наименьшим HP
-        EntityData target = null;
-        float lowestHPPercent = float.MaxValue;
-
-        foreach (var ally in targetsInRange)
+        if (!healAll)
         {
-            if (ally.HP >= ally.maxHP) continue;
+            // Ищем союзника с наименьшим HP
+            EntityData target = null;
+            float lowestHPPercent = float.MaxValue;
 
-            float percent = (float)ally.HP / ally.maxHP;
-            if (percent < lowestHPPercent)
+            foreach (var ally in targetsInRange)
             {
-                lowestHPPercent = percent;
-                target = ally;
+                if (ally.HP >= ally.maxHP) continue;
+
+                float percent = (float)ally.HP / ally.maxHP;
+                if (percent < lowestHPPercent)
+                {
+                    lowestHPPercent = percent;
+                    target = ally;
+                }
+            }
+
+            if (target == null) return; // все здоровы
+
+            target.Heal(self.ATK);
+        }
+
+        if (healAll)
+        {
+            foreach (var ally in targetsInRange)
+            {
+                if (ally.HP >= ally.maxHP) continue;
+                ally.Heal(self.ATK);
             }
         }
 
-        if (target == null) return; // все здоровы
-
-        target.Heal(self.ATK);
+        cooldown = self.attackInterval;
 
         // Зарядка SP за атаку
         Skill skill = GetComponent<Skill>();
         if (skill != null && skill.spChargeType == SPChargeType.PerAttack)
             skill.ChargePerAttack();
 
-        cooldown = self.attackInterval;
+        
     }
 }

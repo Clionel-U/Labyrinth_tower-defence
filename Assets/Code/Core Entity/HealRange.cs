@@ -7,7 +7,7 @@ public class HealRange : MonoBehaviour
     public HealTargetInRange targetList;
     private EntityData self;
 
-    public EntityType targets = EntityType.Unit;
+    private EntityType targets = EntityType.Unit;
 
     private void OnEnable()
     {

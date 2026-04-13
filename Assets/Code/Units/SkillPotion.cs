@@ -5,13 +5,13 @@ using UnityEngine;
 public class SkillPotion : Skill
 {
     [Header("ѕрепарат NT-X7")]
-    public float poisonDamagePercent = 0.3f; // % от ATK за каждый тик €да
+    public float poisonDamagePercent = 0.4f; // % от ATK за каждый тик €да
     public float slowPercent = 0.5f;          // замедление на 50%
-    public float effectDuration = 3f;         // длительность €да и замедлени€
-    public float poisonTickInterval = 1f;     // интервал тика €да
+    public float effectDuration;         // длительность €да и замедлени€
+    public float poisonTickInterval;     // интервал тика €да
 
     private HealTargetInRange healComp;
-    private TargetInRange targetList;
+    private TargetInRange _targetList;
 
     protected override void Awake()
     {
@@ -22,20 +22,26 @@ public class SkillPotion : Skill
         maxSP = 3f;
 
         healComp = GetComponent<HealTargetInRange>();
-        targetList = GetComponent<TargetInRange>();
+        _targetList = GetComponent<TargetInRange>();
+    }
+
+    public override bool CanActivate()
+    {
+        if (_targetList.targetsInRange.Count != 0 && healComp.cooldown < 0.1f)
+        {
+            healComp.cooldown = self.attackInterval; 
+            return base.CanActivate();
+        }
+        else
+        {
+            return false;
+        }
     }
 
     protected override void OnSkillActivate()
     {
-        if (targetList.targetsInRange.Count == 0)
-        {
-            currentSP = 3f;
-            isActive = false;
-            return;
-        }
-
         // ЅерЄм врага
-        EntityData target = targetList.targetsInRange[0];
+        EntityData target = _targetList.targetsInRange[0];
 
         if (target != null)
             StartCoroutine(ApplyEffects(target));
@@ -47,10 +53,14 @@ public class SkillPotion : Skill
     {
         if (target == null) yield break;
 
-        // ѕримен€ем замедление
+        int poisonAtk = Mathf.RoundToInt(self.ATK * poisonDamagePercent);
         float originalSpeed = target.speed;
-        target.speed *= (1f - slowPercent);
 
+        if (!target.isBoss)
+        {
+            target.speed *= (1f - slowPercent);
+        }
+            
         float elapsed = 0f;
         float tickTimer = 0f;
 
@@ -64,21 +74,17 @@ public class SkillPotion : Skill
             if (tickTimer >= poisonTickInterval)
             {
                 tickTimer = 0f;
-                int poisonDmg = Mathf.RoundToInt(self.ATK * poisonDamagePercent);
-
-                // яд Ч магический урон, игнорирует DEF
-                AtkType originalType = self.atkType;
-                self.atkType = AtkType.Magical;
-                int dmg = Damage.Calculate(self, target);
+                
+                // яд Ч магический урон
+                int dmg = Damage.CalculateFromAttack(poisonAtk, AtkType.Magical, target);
                 target.TakeDamage(dmg);
-                self.atkType = originalType;
             }
 
             yield return null;
         }
 
         // —нимаем замедление если враг ещЄ жив
-        if (target != null)
+        if (target != null && !target.isBoss)
             target.speed = originalSpeed;
     }
 

@@ -18,7 +18,7 @@ public class SkillArsenal : Skill
         activationType = ActivationType.Manual;
         hasDuration = true;
         maxSP = 10f;
-        duration = 8f;
+        duration = 6f;
 
         sr = GetComponent<SpriteRenderer>();
         attackComp = GetComponent<AttackTargetInRange>();

@@ -52,7 +52,7 @@ public class UnitButton : MonoBehaviour
 
     void UpdateButton()
     {
-        if (DeployLimit.Instance.currentLimit <= 0)
+        if (DeployLimit.Instance.currentLimit <= 0 && spawnedUnit == null)
         {
             button.interactable = false;
             return;

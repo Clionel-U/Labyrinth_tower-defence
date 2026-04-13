@@ -5,7 +5,7 @@ using UnityEngine;
 public class Range : MonoBehaviour
 {
     public AttackTargetInRange targetList; //ссылка на скрипт, который хранит список врагов в радиусе атаки и выполн€ет атаку
-    public EntityType targets; //тег, который определ€ет, кого считать врагами (дл€ юнитов это "Enemy", дл€ врагов это "Unit")
+    private EntityType targets; //тег, который определ€ет, кого считать врагами (дл€ юнитов это "Enemy", дл€ врагов это "Unit")
     private EntityData self;
 
     //  акие типы врагов может атаковать этот юнит

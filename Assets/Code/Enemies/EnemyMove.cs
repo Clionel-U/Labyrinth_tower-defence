@@ -10,13 +10,16 @@ public class EnemyMove : MonoBehaviour
     private EntityData data;
     private SpriteRenderer sr;
 
+    public bool stopped = false;
+    public float stopDuration = 0f;
+
     void Awake() => sr = GetComponent<SpriteRenderer>();
 
     public void Init(EnemyPath _path)
     {
         path = _path;
         data = GetComponent<EntityData>();
-        block = GetComponent<EnemyBlock>();
+        block = GetComponentInChildren<EnemyBlock>();
         currentIndex = 1;
     }
 
@@ -24,6 +27,15 @@ public class EnemyMove : MonoBehaviour
     {
         if (path == null || data == null) return;
         if (block != null && block.IsBlocked()) return;
+        if (stopped)
+        {
+            if (stopDuration > 0)
+            {
+                stopDuration -= Time.deltaTime;
+                return;
+            }
+            else stopped = false;
+        }
         Move();
     }
 
@@ -58,5 +70,11 @@ public class EnemyMove : MonoBehaviour
     {
         WaveManager.Instance.EnemyReachedGoal(gameObject);
         Destroy(gameObject);
+    }
+
+    public void StopEnemy(float duration)
+    {
+        stopped = true;
+        stopDuration = duration;
     }
 }
