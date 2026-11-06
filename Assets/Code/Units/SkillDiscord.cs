@@ -6,15 +6,15 @@ public class SkillDiscord : Skill
 {
     private readonly List<EntityData> keysCache = new List<EntityData>();
 
-    [Header("Параметры Мистюна")]
+    [Header("РџР°СЂР°РјРµС‚СЂС‹ РњРёСЃС‚СЋРЅР°")]
     public float mistuneDamagePercent;
     public float mistuneTickInterval;
     public float instantDamagePercent;
 
-    // Храним врага и время, когда ему в следующий раз нанести урон
+    // РҐСЂР°РЅРёРј РІСЂР°РіР° Рё РІСЂРµРјСЏ, РєРѕРіРґР° РµРјСѓ РІ СЃР»РµРґСѓСЋС‰РёР№ СЂР°Р· РЅР°РЅРµСЃС‚Рё СѓСЂРѕРЅ
     private readonly Dictionary<EntityData, float> activeMistunes = new Dictionary<EntityData, float>();
 
-    // Список для удаления (чтобы не менять словарь во время перебора)
+    // РЎРїРёСЃРѕРє РґР»СЏ СѓРґР°Р»РµРЅРёСЏ (С‡С‚РѕР±С‹ РЅРµ РјРµРЅСЏС‚СЊ СЃР»РѕРІР°СЂСЊ РІРѕ РІСЂРµРјСЏ РїРµСЂРµР±РѕСЂР°)
     private readonly List<EntityData> toRemove = new List<EntityData>();
 
     private AttackTargetInRange atkComp;
@@ -31,12 +31,12 @@ public class SkillDiscord : Skill
 
         atkComp = GetComponent<AttackTargetInRange>();
         _targetList = GetComponent<TargetInRange>();
-        atkComp.enabled = false; // Включаем только при активации ульты
+        atkComp.enabled = false; // Р’РєР»СЋС‡Р°РµРј С‚РѕР»СЊРєРѕ РїСЂРё Р°РєС‚РёРІР°С†РёРё СѓР»СЊС‚С‹
     }
 
     protected override void Update()
     {
-        base.Update(); // Важно для SP и таймера скилла
+        base.Update(); // Р’Р°Р¶РЅРѕ РґР»СЏ SP Рё С‚Р°Р№РјРµСЂР° СЃРєРёР»Р»Р°
 
         HandleMistuneLogic();
     }
@@ -45,23 +45,23 @@ public class SkillDiscord : Skill
     {
         int mistuneAtk = Mathf.RoundToInt(self.ATK * mistuneDamagePercent);
 
-        // 1. ОПРЕДЕЛЯЕМ ПУЛ ВРАГОВ
-        // Если скилл активен — берем всех. Если нет — только тех, кто в радиусе.
+        // 1. РћРџР Р•Р”Р•Р›РЇР•Рњ РџРЈР› Р’Р РђР“РћР’
+        // Р•СЃР»Рё СЃРєРёР»Р» Р°РєС‚РёРІРµРЅ вЂ” Р±РµСЂРµРј РІСЃРµС…. Р•СЃР»Рё РЅРµС‚ вЂ” С‚РѕР»СЊРєРѕ С‚РµС…, РєС‚Рѕ РІ СЂР°РґРёСѓСЃРµ.
         var potentialTargets = isActive ? AllEnemies.allEnemies : _targetList.targetsInRange;
 
-        // 2. ДОБАВЛЯЕМ НОВЫХ ВРАГОВ
+        // 2. Р”РћР‘РђР’Р›РЇР•Рњ РќРћР’Р«РҐ Р’Р РђР“РћР’
         foreach (var enemy in potentialTargets)
         {
             if (enemy == null) continue;
 
             if (!activeMistunes.ContainsKey(enemy))
             {
-                // Засекаем личное время первого тика (можно сделать мгновенно или через интервал)
+                // Р—Р°СЃРµРєР°РµРј Р»РёС‡РЅРѕРµ РІСЂРµРјСЏ РїРµСЂРІРѕРіРѕ С‚РёРєР° (РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РјРіРЅРѕРІРµРЅРЅРѕ РёР»Рё С‡РµСЂРµР· РёРЅС‚РµСЂРІР°Р»)
                 activeMistunes.Add(enemy, Time.time + mistuneTickInterval);
             }
         }
 
-        // 3. ТИКАЕМ УРОНОМ И ПРОВЕРЯЕМ ВЫХОД
+        // 3. РўРРљРђР•Рњ РЈР РћРќРћРњ Р РџР РћР’Р•Р РЇР•Рњ Р’Р«РҐРћР”
         toRemove.Clear();
         keysCache.Clear();
 
@@ -69,24 +69,24 @@ public class SkillDiscord : Skill
 
         foreach (var enemy in keysCache)
         {
-            // Условие удаления: враг умер ИЛИ (скилл не активен И враг вышел из зоны)
+            // РЈСЃР»РѕРІРёРµ СѓРґР°Р»РµРЅРёСЏ: РІСЂР°Рі СѓРјРµСЂ РР›Р (СЃРєРёР»Р» РЅРµ Р°РєС‚РёРІРµРЅ Р РІСЂР°Рі РІС‹С€РµР» РёР· Р·РѕРЅС‹)
             if (enemy == null || (!isActive && !_targetList.targetsInRange.Contains(enemy)))
             {
                 toRemove.Add(enemy);
                 continue;
             }
 
-            // ПРОВЕРКА ТАЙМЕРА (Индивидуальный тик)
+            // РџР РћР’Р•Р РљРђ РўРђР™РњР•Р Рђ (РРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Р№ С‚РёРє)
             if (Time.time >= activeMistunes[enemy])
             {
                 int damage = Damage.CalculateFromAttack(mistuneAtk, AtkType.Magical, enemy);
                 enemy.TakeDamage(damage);
-                // Назначаем время следующего тика для ЭТОГО врага
+                // РќР°Р·РЅР°С‡Р°РµРј РІСЂРµРјСЏ СЃР»РµРґСѓСЋС‰РµРіРѕ С‚РёРєР° РґР»СЏ Р­РўРћР“Рћ РІСЂР°РіР°
                 activeMistunes[enemy] = Time.time + mistuneTickInterval;
             }
         }
 
-        // Удаляем "отвалившихся" врагов
+        // РЈРґР°Р»СЏРµРј "РѕС‚РІР°Р»РёРІС€РёС…СЃСЏ" РІСЂР°РіРѕРІ
         foreach (var enemy in toRemove)
         {
             activeMistunes.Remove(enemy);
@@ -97,7 +97,7 @@ public class SkillDiscord : Skill
     {
         if (atkComp != null) atkComp.enabled = true;
 
-        // Мгновенный урон по всем при прожатии
+        // РњРіРЅРѕРІРµРЅРЅС‹Р№ СѓСЂРѕРЅ РїРѕ РІСЃРµРј РїСЂРё РїСЂРѕР¶Р°С‚РёРё
         int instantDmgAtk = Mathf.RoundToInt(self.ATK * instantDamagePercent);
         for (int i = AllEnemies.allEnemies.Count - 1; i >= 0; i--)
         {
@@ -108,16 +108,16 @@ public class SkillDiscord : Skill
             }
         }
 
-        // При активации мы не чистим словарь, так как враги в зоне просто 
-        // продолжат тикать по своим таймерам, а остальные добавятся в HandleMistuneLogic
+        // РџСЂРё Р°РєС‚РёРІР°С†РёРё РјС‹ РЅРµ С‡РёСЃС‚РёРј СЃР»РѕРІР°СЂСЊ, С‚Р°Рє РєР°Рє РІСЂР°РіРё РІ Р·РѕРЅРµ РїСЂРѕСЃС‚Рѕ 
+        // РїСЂРѕРґРѕР»Р¶Р°С‚ С‚РёРєР°С‚СЊ РїРѕ СЃРІРѕРёРј С‚Р°Р№РјРµСЂР°Рј, Р° РѕСЃС‚Р°Р»СЊРЅС‹Рµ РґРѕР±Р°РІСЏС‚СЃСЏ РІ HandleMistuneLogic
     }
 
     protected override void OnSkillDeactivate()
     {
         if (atkComp != null) atkComp.enabled = false;
 
-        // Когда ульта кончилась, нужно мгновенно убрать из словаря всех, 
-        // кто НЕ находится в зоне пассивки
+        // РљРѕРіРґР° СѓР»СЊС‚Р° РєРѕРЅС‡РёР»Р°СЃСЊ, РЅСѓР¶РЅРѕ РјРіРЅРѕРІРµРЅРЅРѕ СѓР±СЂР°С‚СЊ РёР· СЃР»РѕРІР°СЂСЏ РІСЃРµС…, 
+        // РєС‚Рѕ РќР• РЅР°С…РѕРґРёС‚СЃСЏ РІ Р·РѕРЅРµ РїР°СЃСЃРёРІРєРё
         toRemove.Clear();
         foreach (var enemy in activeMistunes.Keys)
         {

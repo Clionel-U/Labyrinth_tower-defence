@@ -17,7 +17,7 @@ public class SPBar : MonoBehaviour
 
     void Update()
     {
-        // Äëèòåëüíîñòü îáíîâëÿåòñÿ êàæäûé êàäð ïîêà ñêèëë àêòèâåí
+        // Ð”Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð¾Ð±Ð½Ð¾Ð²Ð»ÑÐµÑ‚ÑÑ ÐºÐ°Ð¶Ð´Ñ‹Ð¹ ÐºÐ°Ð´Ñ€ Ð¿Ð¾ÐºÐ° ÑÐºÐ¸Ð»Ð» Ð°ÐºÑ‚Ð¸Ð²ÐµÐ½
         if (skill != null && skill.isActive && skill.hasDuration)
             UpdateBar();
     }
@@ -30,17 +30,17 @@ public class SPBar : MonoBehaviour
 
         if (skill.isActive && skill.hasDuration)
         {
-            // Ïîêàçûâàåì îñòàòîê äëèòåëüíîñòè
+            // ÐŸÐ¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ðº Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸
             percent = skill.durationTimer / skill.duration;
         }
         else if (skill.isActive && !skill.hasDuration)
         {
-            // Áåñêîíå÷íûé ñêèëë — ïîëíàÿ øêàëà ïîêà àêòèâåí
+            // Ð‘ÐµÑÐºÐ¾Ð½ÐµÑ‡Ð½Ñ‹Ð¹ ÑÐºÐ¸Ð»Ð» â€” Ð¿Ð¾Ð»Ð½Ð°Ñ ÑˆÐºÐ°Ð»Ð° Ð¿Ð¾ÐºÐ° Ð°ÐºÑ‚Ð¸Ð²ÐµÐ½
             percent = 1f;
         }
         else
         {
-            // Ñêèëë íå àêòèâåí — ïîêàçûâàåì SP
+            // Ð¡ÐºÐ¸Ð»Ð» Ð½Ðµ Ð°ÐºÑ‚Ð¸Ð²ÐµÐ½ â€” Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ SP
             percent = skill.maxSP > 0 ? skill.currentSP / skill.maxSP : 0f;
         }
 

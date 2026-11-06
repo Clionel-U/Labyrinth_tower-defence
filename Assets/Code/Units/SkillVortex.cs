@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillVortex : Skill
 {
-    [Header("Параметры Вихря душ")]
+    [Header("РџР°СЂР°РјРµС‚СЂС‹ Р’РёС…СЂСЏ РґСѓС€")]
     public GameObject vortexPrefab;
     public float damageMultiplier;
 
@@ -22,11 +22,11 @@ public class SkillVortex : Skill
 
     protected override void OnSkillActivate()
     {
-        // Создаем вихрь на позиции юнита
+        // РЎРѕР·РґР°РµРј РІРёС…СЂСЊ РЅР° РїРѕР·РёС†РёРё СЋРЅРёС‚Р°
         currentVortex = Instantiate(vortexPrefab, transform.position, Quaternion.identity);
         currentVortex.transform.SetParent(transform);
 
-        // Логика нанесения урона будет внутри скрипта вихря
+        // Р›РѕРіРёРєР° РЅР°РЅРµСЃРµРЅРёСЏ СѓСЂРѕРЅР° Р±СѓРґРµС‚ РІРЅСѓС‚СЂРё СЃРєСЂРёРїС‚Р° РІРёС…СЂСЏ
         var vortexScript = currentVortex.GetComponent<VortexLogic>();
         if (vortexScript != null)
         {
@@ -36,7 +36,7 @@ public class SkillVortex : Skill
 
     protected override void OnSkillDeactivate()
     {
-        // Уничтожаем вихрь при деактивации скилла
+        // РЈРЅРёС‡С‚РѕР¶Р°РµРј РІРёС…СЂСЊ РїСЂРё РґРµР°РєС‚РёРІР°С†РёРё СЃРєРёР»Р»Р°
         if (currentVortex != null)
         {
             Destroy(currentVortex);

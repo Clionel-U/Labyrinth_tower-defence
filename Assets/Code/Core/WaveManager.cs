@@ -26,26 +26,26 @@ public class WaveManager : MonoBehaviour
     public GameObject win;
     public System.Action<int> OnReachedGoal;
 
-    [Header("Волны")]
+    [Header("Р’РѕР»РЅС‹")]
     public List<WaveData> waves = new List<WaveData>();
 
-    [Header("Пути")]
+    [Header("РџСѓС‚Рё")]
     public List<EnemyPath> paths = new List<EnemyPath>();
 
     [Header("UI")]
     public TMP_Text killCounterLabel; // "34 / 57"
 
-    [Header("Настройки")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё")]
     public float timeBeforeFirstWave = 5f;
     public float timeBetweenWaves = 10f;
 
-    private int totalEnemies = 0;  // всего врагов за уровень
-    private int killedEnemies = 0; // сколько убито
-    private int activeEnemies = 0; // живые на сцене прямо сейчас
+    private int totalEnemies = 0;  // РІСЃРµРіРѕ РІСЂР°РіРѕРІ Р·Р° СѓСЂРѕРІРµРЅСЊ
+    private int killedEnemies = 0; // СЃРєРѕР»СЊРєРѕ СѓР±РёС‚Рѕ
+    private int activeEnemies = 0; // Р¶РёРІС‹Рµ РЅР° СЃС†РµРЅРµ РїСЂСЏРјРѕ СЃРµР№С‡Р°СЃ
 
     void Start()
     {
-        // Считаем всех врагов за уровень заранее
+        // РЎС‡РёС‚Р°РµРј РІСЃРµС… РІСЂР°РіРѕРІ Р·Р° СѓСЂРѕРІРµРЅСЊ Р·Р°СЂР°РЅРµРµ
         foreach (var wave in waves)
             totalEnemies += wave.enemies.Count;
 
@@ -97,7 +97,7 @@ public class WaveManager : MonoBehaviour
         EnemyPath path = paths.Find(p => p.pathID == entry.pathID);
         if (path == null || path.Length == 0)
         {
-            Debug.LogWarning($"Путь с ID {entry.pathID} не найден!");
+            Debug.LogWarning($"РџСѓС‚СЊ СЃ ID {entry.pathID} РЅРµ РЅР°Р№РґРµРЅ!");
             return;
         }
 
@@ -143,6 +143,6 @@ public class WaveManager : MonoBehaviour
     void OnAllWavesComplete()
     {
         win.SetActive(true);
-        Debug.Log("Все волны завершены!");
+        Debug.Log("Р’СЃРµ РІРѕР»РЅС‹ Р·Р°РІРµСЂС€РµРЅС‹!");
     }
 }

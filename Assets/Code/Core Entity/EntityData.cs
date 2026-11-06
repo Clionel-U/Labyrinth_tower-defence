@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EntityType { Unit, Enemy } //тип сущности, юнит или враг, влияет на то, какие атрибуты у неё есть и как она взаимодействует с другими объектами
-public enum UnitType { Melee, Ranged } //куда ставить юнита, на землю или на возвышенность
-public enum EnemyType { Ground, Air } //тип врага, наземный или воздушный, влияет на то, может ли юнит его атаковать
-public enum AtkType { Physical, Magical } //тип атаки, влияет на то, как рассчитывается урон (ATK-DEF или ATK-RES)
+public enum EntityType { Unit, Enemy } //С‚РёРї СЃСѓС‰РЅРѕСЃС‚Рё, СЋРЅРёС‚ РёР»Рё РІСЂР°Рі, РІР»РёСЏРµС‚ РЅР° С‚Рѕ, РєР°РєРёРµ Р°С‚СЂРёР±СѓС‚С‹ Сѓ РЅРµС‘ РµСЃС‚СЊ Рё РєР°Рє РѕРЅР° РІР·Р°РёРјРѕРґРµР№СЃС‚РІСѓРµС‚ СЃ РґСЂСѓРіРёРјРё РѕР±СЉРµРєС‚Р°РјРё
+public enum UnitType { Melee, Ranged } //РєСѓРґР° СЃС‚Р°РІРёС‚СЊ СЋРЅРёС‚Р°, РЅР° Р·РµРјР»СЋ РёР»Рё РЅР° РІРѕР·РІС‹С€РµРЅРЅРѕСЃС‚СЊ
+public enum EnemyType { Ground, Air } //С‚РёРї РІСЂР°РіР°, РЅР°Р·РµРјРЅС‹Р№ РёР»Рё РІРѕР·РґСѓС€РЅС‹Р№, РІР»РёСЏРµС‚ РЅР° С‚Рѕ, РјРѕР¶РµС‚ Р»Рё СЋРЅРёС‚ РµРіРѕ Р°С‚Р°РєРѕРІР°С‚СЊ
+public enum AtkType { Physical, Magical } //С‚РёРї Р°С‚Р°РєРё, РІР»РёСЏРµС‚ РЅР° С‚Рѕ, РєР°Рє СЂР°СЃСЃС‡РёС‚С‹РІР°РµС‚СЃСЏ СѓСЂРѕРЅ (ATK-DEF РёР»Рё ATK-RES)
 
 public class EntityData : MonoBehaviour
 {
-    [Header("Entity Attributes")] //общие атрибуты для юнитов и врагов
+    [Header("Entity Attributes")] //РѕР±С‰РёРµ Р°С‚СЂРёР±СѓС‚С‹ РґР»СЏ СЋРЅРёС‚РѕРІ Рё РІСЂР°РіРѕРІ
     public string _name;
     public Sprite icon;
     public EntityType entityType;
@@ -29,7 +29,7 @@ public class EntityData : MonoBehaviour
     public GameObject SPBarPrefab;
     private GameObject skillBar;
 
-    [Header("Unit Attributes")] //атрибуты, специфичные для юнитов
+    [Header("Unit Attributes")] //Р°С‚СЂРёР±СѓС‚С‹, СЃРїРµС†РёС„РёС‡РЅС‹Рµ РґР»СЏ СЋРЅРёС‚РѕРІ
     public int maxBlock;
     public int redeployTime;
 
@@ -43,7 +43,7 @@ public class EntityData : MonoBehaviour
     private Color originalColor;
     public GameObject range;
 
-    [Header("Enemy Attributes")] //атрибуты, специфичные для врагов
+    [Header("Enemy Attributes")] //Р°С‚СЂРёР±СѓС‚С‹, СЃРїРµС†РёС„РёС‡РЅС‹Рµ РґР»СЏ РІСЂР°РіРѕРІ
     public int blockNeed;
     public float speed;
     public EnemyType enemyType;

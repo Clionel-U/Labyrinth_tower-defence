@@ -7,7 +7,7 @@ public class BossRange : MonoBehaviour
     public BossTargets targetList;
     public EntityType targets = EntityType.Unit;
 
-    private void OnEnable() //при активации объекта, очищаем список врагов в радиусе и устанавливаем тег для определения врагов
+    private void OnEnable() //РїСЂРё Р°РєС‚РёРІР°С†РёРё РѕР±СЉРµРєС‚Р°, РѕС‡РёС‰Р°РµРј СЃРїРёСЃРѕРє РІСЂР°РіРѕРІ РІ СЂР°РґРёСѓСЃРµ Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚РµРі РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РІСЂР°РіРѕРІ
     {
         targetList.targetsInRange.Clear();
     }

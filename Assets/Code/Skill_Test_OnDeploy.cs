@@ -21,11 +21,11 @@ public class Skill_Test_OnDeploy : Skill
 
     protected override void OnSkillActivate()
     {
-        Debug.Log($"{self._name}: скилл активирован при деплое");
+        Debug.Log($"{self._name}: СЃРєРёР»Р» Р°РєС‚РёРІРёСЂРѕРІР°РЅ РїСЂРё РґРµРїР»РѕРµ");
     }
 
     protected override void OnSkillDeactivate()
     {
-        Debug.Log($"{self._name}: скилл завершён");
+        Debug.Log($"{self._name}: СЃРєРёР»Р» Р·Р°РІРµСЂС€С‘РЅ");
     }
 }

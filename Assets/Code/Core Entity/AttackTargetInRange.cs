@@ -22,35 +22,35 @@ public class AttackTargetInRange : MonoBehaviour
 
     private void Update()
     {
-        if (cooldown > 0f) // уменьшаем кулдаун если он есть
+        if (cooldown > 0f) // СѓРјРµРЅСЊС€Р°РµРј РєСѓР»РґР°СѓРЅ РµСЃР»Рё РѕРЅ РµСЃС‚СЊ
             cooldown -= Time.deltaTime;
 
-        targetsInRange.RemoveAll(t => t == null); // чистим список
+        targetsInRange.RemoveAll(t => t == null); // С‡РёСЃС‚РёРј СЃРїРёСЃРѕРє
 
-        if (targetsInRange.Count == 0) return; // если нет врагов — ничего не делаем
+        if (targetsInRange.Count == 0) return; // РµСЃР»Рё РЅРµС‚ РІСЂР°РіРѕРІ вЂ” РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј
                 
-        if (cooldown > 0f) return; // если кд не прошёл — не атакуем
+        if (cooldown > 0f) return; // РµСЃР»Рё РєРґ РЅРµ РїСЂРѕС€С‘Р» вЂ” РЅРµ Р°С‚Р°РєСѓРµРј
 
-        EntityData target = targetsInRange[0]; // выбираем цель
+        EntityData target = targetsInRange[0]; // РІС‹Р±РёСЂР°РµРј С†РµР»СЊ
 
         if (target.isInvulnerable)
         {
             if (targetsInRange.Count > 1)
-                target = targetsInRange[1]; // если первая цель неуязвима, пробуем вторую
+                target = targetsInRange[1]; // РµСЃР»Рё РїРµСЂРІР°СЏ С†РµР»СЊ РЅРµСѓСЏР·РІРёРјР°, РїСЂРѕР±СѓРµРј РІС‚РѕСЂСѓСЋ
             else
-                return; // если второй цели нет — ничего не делаем
+                return; // РµСЃР»Рё РІС‚РѕСЂРѕР№ С†РµР»Рё РЅРµС‚ вЂ” РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј
         }
 
         if (doubleAttack)
         {
-            // Первый хит — физический
+            // РџРµСЂРІС‹Р№ С…РёС‚ вЂ” С„РёР·РёС‡РµСЃРєРёР№
             AtkType originalType = self.atkType;
 
             self.atkType = AtkType.Physical;
             int physDmg = Damage.Calculate(self, target);
             target.TakeDamage(physDmg);
 
-            // Второй хит — магический (только если цель ещё жива)
+            // Р’С‚РѕСЂРѕР№ С…РёС‚ вЂ” РјР°РіРёС‡РµСЃРєРёР№ (С‚РѕР»СЊРєРѕ РµСЃР»Рё С†РµР»СЊ РµС‰С‘ Р¶РёРІР°)
             if (target != null)
             {
                 self.atkType = AtkType.Magical;
@@ -58,7 +58,7 @@ public class AttackTargetInRange : MonoBehaviour
                 target.TakeDamage(magDmg);
             }
                         
-            self.atkType = originalType; // Восстанавливаем оригинальный тип атаки
+            self.atkType = originalType; // Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ С‚РёРї Р°С‚Р°РєРё
         }
         else
         {
@@ -66,7 +66,7 @@ public class AttackTargetInRange : MonoBehaviour
             target.TakeDamage(dmg);
         }
 
-        cooldown = self.attackInterval; // запускаем кулдаун после атаки
+        cooldown = self.attackInterval; // Р·Р°РїСѓСЃРєР°РµРј РєСѓР»РґР°СѓРЅ РїРѕСЃР»Рµ Р°С‚Р°РєРё
 
         Skill skill = GetComponent<Skill>();
         if (skill != null && skill.spChargeType == SPChargeType.PerAttack)

@@ -20,7 +20,7 @@ public class Skill_Test_Auto_Attack : Skill
 
     protected override void OnSkillActivate()
     {
-        Debug.Log($"{self._name}: скилл активирован (Auto/Attack)");
+        Debug.Log($"{self._name}: СЃРєРёР»Р» Р°РєС‚РёРІРёСЂРѕРІР°РЅ (Auto/Attack)");
         Deactivate();
     }
 

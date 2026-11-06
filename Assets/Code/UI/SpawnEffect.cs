@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SpawnEffect : MonoBehaviour
 {
-    [Header("Настройки эффекта")]
-    public float fadeDuration = 0.5f; // Длительность появления в секундах
-    public Color spawnColor = Color.black; // Начнем с черного (можно сделать прозрачным)
+    [Header("РќР°СЃС‚СЂРѕР№РєРё СЌС„С„РµРєС‚Р°")]
+    public float fadeDuration = 0.5f; // Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РїРѕСЏРІР»РµРЅРёСЏ РІ СЃРµРєСѓРЅРґР°С…
+    public Color spawnColor = Color.black; // РќР°С‡РЅРµРј СЃ С‡РµСЂРЅРѕРіРѕ (РјРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ РїСЂРѕР·СЂР°С‡РЅС‹Рј)
 
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -18,8 +18,8 @@ public class SpawnEffect : MonoBehaviour
         
         if (spriteRenderer != null)
         {
-            originalColor = spriteRenderer.color; // Запоминаем "родной" цвет из инспектора
-            spriteRenderer.color = spawnColor; // Мгновенно делаем черным
+            originalColor = spriteRenderer.color; // Р—Р°РїРѕРјРёРЅР°РµРј "СЂРѕРґРЅРѕР№" С†РІРµС‚ РёР· РёРЅСЃРїРµРєС‚РѕСЂР°
+            spriteRenderer.color = spawnColor; // РњРіРЅРѕРІРµРЅРЅРѕ РґРµР»Р°РµРј С‡РµСЂРЅС‹Рј
         }
         else enabled = false;
     }
@@ -37,19 +37,19 @@ public class SpawnEffect : MonoBehaviour
         isSpawned = true;
         float elapsed = 0f;
 
-        // Плавно меняем цвет от spawnColor (черного) к originalColor (родному)
+        // РџР»Р°РІРЅРѕ РјРµРЅСЏРµРј С†РІРµС‚ РѕС‚ spawnColor (С‡РµСЂРЅРѕРіРѕ) Рє originalColor (СЂРѕРґРЅРѕРјСѓ)
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
 
-            // Расчитываем промежуточный цвет с помощью Lerp
+            // Р Р°СЃС‡РёС‚С‹РІР°РµРј РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Р№ С†РІРµС‚ СЃ РїРѕРјРѕС‰СЊСЋ Lerp
             Color current = Color.Lerp(spawnColor, originalColor, elapsed / fadeDuration);
             spriteRenderer.color = current;
 
-            yield return null; // Ждем следующий кадр
+            yield return null; // Р–РґРµРј СЃР»РµРґСѓСЋС‰РёР№ РєР°РґСЂ
         }
 
-        // Гарантируем, что в конце установится точный оригинальный цвет
+        // Р“Р°СЂР°РЅС‚РёСЂСѓРµРј, С‡С‚Рѕ РІ РєРѕРЅС†Рµ СѓСЃС‚Р°РЅРѕРІРёС‚СЃСЏ С‚РѕС‡РЅС‹Р№ РѕСЂРёРіРёРЅР°Р»СЊРЅС‹Р№ С†РІРµС‚
         spriteRenderer.color = originalColor;
     }
 }

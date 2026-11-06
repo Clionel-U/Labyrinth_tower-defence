@@ -8,6 +8,6 @@ public class BossTargets : MonoBehaviour
 
     private void Update()
     {
-        targetsInRange.RemoveAll(t => t == null); // чистим список
+        targetsInRange.RemoveAll(t => t == null); // С‡РёСЃС‚РёРј СЃРїРёСЃРѕРє
     }
 }

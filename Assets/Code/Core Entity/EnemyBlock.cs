@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyBlock : MonoBehaviour
 {
-    public EntityData blocker; // кто блокирует врага
+    public EntityData blocker; // РєС‚Рѕ Р±Р»РѕРєРёСЂСѓРµС‚ РІСЂР°РіР°
     public UnitBlock blockerBlock;
 
     public EntityData self;
@@ -26,7 +26,7 @@ public class EnemyBlock : MonoBehaviour
     {
         blocker = unit;
         blockerBlock = block;
-        // добавляем юнита в начало целей врага
+        // РґРѕР±Р°РІР»СЏРµРј СЋРЅРёС‚Р° РІ РЅР°С‡Р°Р»Рѕ С†РµР»РµР№ РІСЂР°РіР°
         if (targetList != null)
         {
             targetList.targetsInRange.Remove(unit);

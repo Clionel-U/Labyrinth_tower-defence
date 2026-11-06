@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SkillPotion : Skill
 {
-    [Header("Препарат NT-X7")]
-    public float poisonDamagePercent = 0.4f; // % от ATK за каждый тик яда
-    public float slowPercent = 0.5f;          // замедление на 50%
-    public float effectDuration;         // длительность яда и замедления
-    public float poisonTickInterval;     // интервал тика яда
+    [Header("РџСЂРµРїР°СЂР°С‚ NT-X7")]
+    public float poisonDamagePercent = 0.4f; // % РѕС‚ ATK Р·Р° РєР°Р¶РґС‹Р№ С‚РёРє СЏРґР°
+    public float slowPercent = 0.5f;          // Р·Р°РјРµРґР»РµРЅРёРµ РЅР° 50%
+    public float effectDuration;         // РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ СЏРґР° Рё Р·Р°РјРµРґР»РµРЅРёСЏ
+    public float poisonTickInterval;     // РёРЅС‚РµСЂРІР°Р» С‚РёРєР° СЏРґР°
 
     private HealTargetInRange healComp;
     private TargetInRange _targetList;
@@ -40,7 +40,7 @@ public class SkillPotion : Skill
 
     protected override void OnSkillActivate()
     {
-        // Берём врага
+        // Р‘РµСЂС‘Рј РІСЂР°РіР°
         EntityData target = _targetList.targetsInRange[0];
 
         if (target != null)
@@ -66,7 +66,7 @@ public class SkillPotion : Skill
 
         while (elapsed < effectDuration)
         {
-            if (target == null) yield break; // враг умер
+            if (target == null) yield break; // РІСЂР°Рі СѓРјРµСЂ
 
             tickTimer += Time.deltaTime;
             elapsed += Time.deltaTime;
@@ -75,7 +75,7 @@ public class SkillPotion : Skill
             {
                 tickTimer = 0f;
                 
-                // Яд — магический урон
+                // РЇРґ вЂ” РјР°РіРёС‡РµСЃРєРёР№ СѓСЂРѕРЅ
                 int dmg = Damage.CalculateFromAttack(poisonAtk, AtkType.Magical, target);
                 target.TakeDamage(dmg);
             }
@@ -83,7 +83,7 @@ public class SkillPotion : Skill
             yield return null;
         }
 
-        // Снимаем замедление если враг ещё жив
+        // РЎРЅРёРјР°РµРј Р·Р°РјРµРґР»РµРЅРёРµ РµСЃР»Рё РІСЂР°Рі РµС‰С‘ Р¶РёРІ
         if (target != null && !target.isBoss)
             target.speed = originalSpeed;
     }

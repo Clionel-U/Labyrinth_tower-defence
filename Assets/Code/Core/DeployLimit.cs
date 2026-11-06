@@ -35,6 +35,6 @@ public class DeployLimit : MonoBehaviour
 
     public void UpdateText()
     {
-        text.text = $"Лимит юнитов: {currentLimit}";
+        text.text = $"Р›РёРјРёС‚ СЋРЅРёС‚РѕРІ: {currentLimit}";
     }
 }

@@ -16,8 +16,8 @@ public class UnitButton : MonoBehaviour
 
     public GameObject spawnedUnit;
     public EntityData spawnedUnitData;
-    public GameObject deployedOverlay;   // зелёная виньетка
-    public GameObject skillReadyIcon;   // иконка скилла
+    public GameObject deployedOverlay;   // Р·РµР»С‘РЅР°СЏ РІРёРЅСЊРµС‚РєР°
+    public GameObject skillReadyIcon;   // РёРєРѕРЅРєР° СЃРєРёР»Р»Р°
 
     public int redeployTime;
     public float redeploymentTimer;

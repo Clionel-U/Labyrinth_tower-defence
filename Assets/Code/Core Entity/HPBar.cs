@@ -27,7 +27,7 @@ public class HPBar : MonoBehaviour
 
         bar.localScale = new Vector3(percent, 0.07f, 1);
 
-        // скрываем бар, если это враг и у него полное HP
+        // СЃРєСЂС‹РІР°РµРј Р±Р°СЂ, РµСЃР»Рё СЌС‚Рѕ РІСЂР°Рі Рё Сѓ РЅРµРіРѕ РїРѕР»РЅРѕРµ HP
         if (entity.entityType == EntityType.Enemy && current == max)
         {
             bar.gameObject.SetActive(false);
@@ -49,27 +49,27 @@ public class HPBar : MonoBehaviour
 
 //public class Bars : MonoBehaviour
 //{
-//    public int maxHP; // максимальный HP, нужно для расчёта процента HP
-//    public int currentHP; //текущий HP, который будет обновляться в Update() для отображения на HP баре
-//    public EntityData me; // я - ссылка на EntityData для получения текущего HP
+//    public int maxHP; // РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ HP, РЅСѓР¶РЅРѕ РґР»СЏ СЂР°СЃС‡С‘С‚Р° РїСЂРѕС†РµРЅС‚Р° HP
+//    public int currentHP; //С‚РµРєСѓС‰РёР№ HP, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РѕР±РЅРѕРІР»СЏС‚СЊСЃСЏ РІ Update() РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РЅР° HP Р±Р°СЂРµ
+//    public EntityData me; // СЏ - СЃСЃС‹Р»РєР° РЅР° EntityData РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ С‚РµРєСѓС‰РµРіРѕ HP
 //    [Space]
 //    [Header("HP Bar")]
-//    public GameObject barBG; // фоновая часть HP бара, отображающая максимальный HP и служащая фоном для заполненной части
-//    public GameObject barFill; // заполненная часть HP бара, отображающая текущий HP
-//    public Transform bar; // ссылка на Transform заполненной части HP бара, для изменения его масштаба в зависимости от процента HP
+//    public GameObject barBG; // С„РѕРЅРѕРІР°СЏ С‡Р°СЃС‚СЊ HP Р±Р°СЂР°, РѕС‚РѕР±СЂР°Р¶Р°СЋС‰Р°СЏ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ HP Рё СЃР»СѓР¶Р°С‰Р°СЏ С„РѕРЅРѕРј РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРЅРѕР№ С‡Р°СЃС‚Рё
+//    public GameObject barFill; // Р·Р°РїРѕР»РЅРµРЅРЅР°СЏ С‡Р°СЃС‚СЊ HP Р±Р°СЂР°, РѕС‚РѕР±СЂР°Р¶Р°СЋС‰Р°СЏ С‚РµРєСѓС‰РёР№ HP
+//    public Transform bar; // СЃСЃС‹Р»РєР° РЅР° Transform Р·Р°РїРѕР»РЅРµРЅРЅРѕР№ С‡Р°СЃС‚Рё HP Р±Р°СЂР°, РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ РµРіРѕ РјР°СЃС€С‚Р°Р±Р° РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РїСЂРѕС†РµРЅС‚Р° HP
 
-//    void Start() //при старте, получаем ссылку на EntityData в родительском объекте, устанавливаем maxHP из EntityData (для врагов: скрываем HP бар, если HP полон)
+//    void Start() //РїСЂРё СЃС‚Р°СЂС‚Рµ, РїРѕР»СѓС‡Р°РµРј СЃСЃС‹Р»РєСѓ РЅР° EntityData РІ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРј РѕР±СЉРµРєС‚Рµ, СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј maxHP РёР· EntityData (РґР»СЏ РІСЂР°РіРѕРІ: СЃРєСЂС‹РІР°РµРј HP Р±Р°СЂ, РµСЃР»Рё HP РїРѕР»РѕРЅ)
 //    {
 //        me = GetComponentInParent<EntityData>();
 //        maxHP = me.maxHP;
 //        if (transform.parent.CompareTag("Enemy"))
 //        {
-//            barBG.SetActive(false); // скрываем при полном HP
+//            barBG.SetActive(false); // СЃРєСЂС‹РІР°РµРј РїСЂРё РїРѕР»РЅРѕРј HP
 //            barFill.SetActive(false);
 //        }
 //    }
 
-//    void Update() //каждый кадр, обновляем currentHP из EntityData, отображаем HP бар, если HP не полон, расчитываем процент HP и изменяем масштаб заполненной части в зависимости от процента HP
+//    void Update() //РєР°Р¶РґС‹Р№ РєР°РґСЂ, РѕР±РЅРѕРІР»СЏРµРј currentHP РёР· EntityData, РѕС‚РѕР±СЂР°Р¶Р°РµРј HP Р±Р°СЂ, РµСЃР»Рё HP РЅРµ РїРѕР»РѕРЅ, СЂР°СЃС‡РёС‚С‹РІР°РµРј РїСЂРѕС†РµРЅС‚ HP Рё РёР·РјРµРЅСЏРµРј РјР°СЃС€С‚Р°Р± Р·Р°РїРѕР»РЅРµРЅРЅРѕР№ С‡Р°СЃС‚Рё РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РїСЂРѕС†РµРЅС‚Р° HP
 //    {
 //        currentHP = me.HP;
 //        while (currentHP != maxHP)

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SkillTurret : Skill
 {
-    [Header("Блок")]
+    [Header("Р‘Р»РѕРє")]
     public GameObject block;
     private UnitBlock blockComp;
 
-    [Header("Зоны атаки")]
-    public GameObject normalRange;   // обычная зона — назначить в инспекторе
-    public GameObject skillRange;    // зона скилла — назначить в инспекторе
+    [Header("Р—РѕРЅС‹ Р°С‚Р°РєРё")]
+    public GameObject normalRange;   // РѕР±С‹С‡РЅР°СЏ Р·РѕРЅР° вЂ” РЅР°Р·РЅР°С‡РёС‚СЊ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ
+    public GameObject skillRange;    // Р·РѕРЅР° СЃРєРёР»Р»Р° вЂ” РЅР°Р·РЅР°С‡РёС‚СЊ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ
 
     private Range normalRangeComp;
     private Range skillRangeComp;
@@ -30,13 +30,13 @@ public class SkillTurret : Skill
         skillRangeComp = skillRange.GetComponent<Range>();
         skillRangeCollider = skillRange.GetComponent<BoxCollider2D>();
 
-        // Зона скилла изначально выключена
+        // Р—РѕРЅР° СЃРєРёР»Р»Р° РёР·РЅР°С‡Р°Р»СЊРЅРѕ РІС‹РєР»СЋС‡РµРЅР°
         skillRange.SetActive(false);
     }
 
     protected override void OnSkillActivate()
     {
-        // Принудительно освобождаем всех заблокированных врагов
+        // РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ РѕСЃРІРѕР±РѕР¶РґР°РµРј РІСЃРµС… Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅРЅС‹С… РІСЂР°РіРѕРІ
         if (block != null)
         {
             ForceUnblockAll();
@@ -45,7 +45,7 @@ public class SkillTurret : Skill
 
         normalRangeComp.targetList.targetsInRange.Clear();
 
-        // Меняем зоны
+        // РњРµРЅСЏРµРј Р·РѕРЅС‹
         normalRange.SetActive(false);
         skillRange.SetActive(true);
 
@@ -54,13 +54,13 @@ public class SkillTurret : Skill
 
     protected override void OnSkillDeactivate()
     {
-        // Возвращаем блокировку
+        // Р’РѕР·РІСЂР°С‰Р°РµРј Р±Р»РѕРєРёСЂРѕРІРєСѓ
         if (block != null)
             block.SetActive(true);
 
         skillRangeComp.targetList.targetsInRange.Clear();
 
-        // Возвращаем зоны
+        // Р’РѕР·РІСЂР°С‰Р°РµРј Р·РѕРЅС‹
         skillRange.SetActive(false);
         normalRange.SetActive(true);
 
