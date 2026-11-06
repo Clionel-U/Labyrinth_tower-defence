@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -50
+  m_SortingOrder: 85
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.7314974, g: 0.8867924, b: 0.50474656, a: 0.41568628}
   m_FlipX: 0
@@ -226,8 +226,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 50
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  m_SortingOrder: 100
+  m_Sprite: {fileID: 21300000, guid: 8f1c44e5c20cb3b489bd5c1bed90e654, type: 3}
   m_Color: {r: 0, g: 1, b: 0.9473467, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -273,8 +273,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.21133333}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.99609375, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -325,23 +325,24 @@ MonoBehaviour:
   _name: "\u0414\u0435\u0441\u0442\u0435\u0440\u0437"
   icon: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
   entityType: 0
-  HP: 0
-  maxHP: 500
-  ATK: 100
-  baseATK: 100
-  DEF: 0
+  HP: 900
+  maxHP: 900
+  ATK: 110
+  baseATK: 110
+  DEF: 20
   RES: 0
-  attackInterval: 1
-  cost: 10
+  attackInterval: 1.5
+  cost: 12
   atkType: 0
   HPBarPrefab: {fileID: 6112245212890964442, guid: 3d9c495c2ff560e4e92be989cc13e3b9, type: 3}
   SPBarPrefab: {fileID: 1012446034297139598, guid: 5fa7fd35fe8915b47bcd97e13a825ec4, type: 3}
   maxBlock: 2
-  redeployTime: 10
+  redeployTime: 20
   unitType: 0
   unitID: 1
   occupiedCell: {x: 0, y: 0, z: 0}
   healBonus: 0
+  range: {fileID: 4318553491753607656}
   blockNeed: 0
   speed: 0
   enemyType: 0
@@ -383,9 +384,9 @@ MonoBehaviour:
   canToggleOff: 0
   isActive: 0
   durationTimer: 0
-  atkIncreasePercent: 0.3
-  activeSprite: {fileID: 7482667652216324306, guid: 4c627050d935feb4dbbef435b0f452f7, type: 3}
-  normalSprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  atkIncreasePercent: 0.4
+  activeSprite: {fileID: 0}
+  normalSprite: {fileID: 21300000, guid: cd91fb58b54d11d45abbdfe7bed9342c, type: 3}
 --- !u!114 &1131874052061319846
 MonoBehaviour:
   m_ObjectHideFlags: 0

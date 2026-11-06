@@ -30,7 +30,8 @@ public class UnitButton : MonoBehaviour
 
         BitiumSystem.Instance.OnBitiumChanged += UpdateButton;
         spawnedUnitData = unit.GetComponent<EntityData>();
-        icon.sprite = spawnedUnitData.icon;
+        icon.sprite = unit.GetComponent<SpriteRenderer>().sprite;
+        icon.color = unit.GetComponent<SpriteRenderer>().color;
         cost = spawnedUnitData.cost;
         redeployTime = spawnedUnitData.redeployTime;
         costText.text = cost.ToString();
@@ -69,6 +70,7 @@ public class UnitButton : MonoBehaviour
         deployedOverlay.SetActive(true);
 
         EntityData data = spawnedUnit.GetComponent<EntityData>();
+        data.range.GetComponent<SpriteRenderer>().enabled = false;
         data.OnDeath += ClearDeployed;
 
         Vector3 pos = spawnedUnit.transform.position;
@@ -80,7 +82,6 @@ public class UnitButton : MonoBehaviour
     public void ClearDeployed()
     {
         spawnedUnitData.OnDeath -= ClearDeployed;
-        UnitUIManager.Instance.Close();
         spawnedUnit = null;
         deployedOverlay.SetActive(false);
         StartRedeployCD();

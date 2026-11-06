@@ -17,8 +17,8 @@ public class SkillArsenal : Skill
         spChargeType = SPChargeType.PerSecond;
         activationType = ActivationType.Manual;
         hasDuration = true;
-        maxSP = 10f;
-        duration = 6f;
+        maxSP = 15f;
+        duration = 10f;
 
         sr = GetComponent<SpriteRenderer>();
         attackComp = GetComponent<AttackTargetInRange>();

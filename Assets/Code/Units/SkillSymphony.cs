@@ -20,7 +20,7 @@ public class SkillSymphony : Skill
         spChargeType = SPChargeType.PerSecond;
         activationType = ActivationType.Manual;
         hasDuration = true;
-        maxSP = 45f;
+        maxSP = 40f;
         duration = 30f;
 
         healComp = GetComponent<HealTargetInRange>();

@@ -6,6 +6,7 @@ public class BossCore : MonoBehaviour
 {
     private EntityData self;
     public GameObject block;
+    public SpriteRenderer range;
 
     [Header("Состояние")]
     public int currentStage = 1;
@@ -48,6 +49,7 @@ public class BossCore : MonoBehaviour
         block.SetActive(false); // Убираем блок
         self.speed = stage2speed; // Меняем скорость во второй стадии
         Stage2?.Invoke();
+        range.enabled = true;
 
         Debug.Log("вторая стадия");
     }

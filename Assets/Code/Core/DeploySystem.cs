@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class DeploySystem : MonoBehaviour
     public Button confirmButton;
     public GameObject dirButtonsPrefab;
     public GameObject previewUnitPrefab;
+    public GameObject previewRangePrefab;
 
     [SerializeField] private DeployState state = DeployState.None;
     [SerializeField] private GameObject selectedUnit;
@@ -41,7 +43,7 @@ public class DeploySystem : MonoBehaviour
             return;
         }
         else if (state != DeployState.None) CancelDeploy();
-            selectedUnit = unitPrefab;
+        selectedUnit = unitPrefab;
         currentButton = button;
 
         EntityData selUnitData = selectedUnit.GetComponent<EntityData>();
@@ -50,7 +52,12 @@ public class DeploySystem : MonoBehaviour
 
         TileHighlighter.Instance.ShowHighlights(unitType);
 
+        previewRangePrefab = previewUnitPrefab.GetComponent<RangeContainer>().range;
         previewUnitPrefab.GetComponent<SpriteRenderer>().sprite = selectedUnit.GetComponent<SpriteRenderer>().sprite;
+        previewUnitPrefab.GetComponent<SpriteRenderer>().color = selectedUnit.GetComponent<SpriteRenderer>().color;
+        previewRangePrefab.GetComponent<SpriteRenderer>().sprite = selUnitData.range.GetComponent<SpriteRenderer>().sprite;
+        previewRangePrefab.transform.localScale = selUnitData.range.transform.localScale;
+        previewRangePrefab.transform.localPosition = selUnitData.range.transform.localPosition;
 
         state = DeployState.SelectingTile;
         Debug.Log("Выбор клетки");

@@ -23,7 +23,7 @@ public class WaveManager : MonoBehaviour
     public static WaveManager Instance;
     void Awake() => Instance = this;
 
-    public System.Action OnAllWavesCompleted;
+    public GameObject win;
     public System.Action<int> OnReachedGoal;
 
     [Header("Волны")]
@@ -142,7 +142,7 @@ public class WaveManager : MonoBehaviour
 
     void OnAllWavesComplete()
     {
-        OnAllWavesCompleted?.Invoke();
+        win.SetActive(true);
         Debug.Log("Все волны завершены!");
     }
 }

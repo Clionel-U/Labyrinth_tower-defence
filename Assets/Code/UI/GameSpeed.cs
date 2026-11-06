@@ -49,9 +49,4 @@ public class GameSpeed : MonoBehaviour
             pauseOverlay.SetActive(false);
         }
     }
-
-    private void Update()
-    {
-        testText.text = $"Time speed  {Time.timeScale}";
-    }
 }

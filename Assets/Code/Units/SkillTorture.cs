@@ -7,7 +7,7 @@ public class SkillTorture : Skill
     [Header("Всемирная пытка")]
     public float damagePercent = 0.6f; // 60% от ATK за каждый хит
     public int hitCount = 3;           // количество инстанций урона
-    public int skillAtk;
+    private int skillAtk;
 
     protected override void Awake()
     {
@@ -15,7 +15,7 @@ public class SkillTorture : Skill
         spChargeType = SPChargeType.PerSecond;
         activationType = ActivationType.Manual;
         hasDuration = false;
-        maxSP = 15f;
+        maxSP = 25f;
     }
 
     public override bool CanActivate()

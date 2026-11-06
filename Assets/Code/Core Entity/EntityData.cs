@@ -40,6 +40,8 @@ public class EntityData : MonoBehaviour
     public int unitID;
     public Vector3 occupiedCell;
     public float healBonus = 0;
+    private Color originalColor;
+    public GameObject range;
 
     [Header("Enemy Attributes")] //атрибуты, специфичные для врагов
     public int blockNeed;
@@ -50,11 +52,13 @@ public class EntityData : MonoBehaviour
     public bool isBoss;
     public bool isInvulnerable = false;
 
+    private bool isDead = false;
     public System.Action<int, int> OnHPChanged;
     public System.Action OnDeath;
 
     private void OnEnable()
     {
+        originalColor = GetComponent<SpriteRenderer>().color;
         if (entityType == EntityType.Enemy) AllEnemies.allEnemies.Add(this);
 
         //HP bar
@@ -103,7 +107,6 @@ public class EntityData : MonoBehaviour
     IEnumerator FlashRed()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        Color originalColor = sr.color;
         sr.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         sr.color = originalColor;
@@ -118,6 +121,9 @@ public class EntityData : MonoBehaviour
 
     public void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         OnDeath?.Invoke();
         Destroy(gameObject);
     }
@@ -129,6 +135,7 @@ public class EntityData : MonoBehaviour
 
         if (entityType == EntityType.Unit)
         {
+            UnitUIManager.Instance.Close();
             GridManager.Instance?.occupiedPositions.Remove(occupiedCell);
             BitiumSystem.Instance?.BitiumChange();
         }

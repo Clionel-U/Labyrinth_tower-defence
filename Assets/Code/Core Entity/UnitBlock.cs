@@ -42,17 +42,13 @@ public class UnitBlock : MonoBehaviour
     {
         if (enemyBlock == null || enemy == null) return false;
 
-        // уже заблокирован
         if (enemyBlock.IsBlocked()) return false;
 
-        // лимит блока
         if (block <= 0 || block < enemy.blockNeed) return false;
 
-        //блок
         enemyBlock.SetBlocker(self, this);
         block -= enemy.blockNeed;
         
-        // добавляем в начало списка целей юнита
         targetList.targetsInRange.Remove(enemy);
         targetList.targetsInRange.Insert(0, enemy);       
 

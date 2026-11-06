@@ -336,10 +336,12 @@ MonoBehaviour:
   HPBarPrefab: {fileID: 6112245212890964442, guid: 3d9c495c2ff560e4e92be989cc13e3b9, type: 3}
   SPBarPrefab: {fileID: 1012446034297139598, guid: 5fa7fd35fe8915b47bcd97e13a825ec4, type: 3}
   maxBlock: 0
-  redeployTime: 10
+  redeployTime: 20
   unitType: 1
+  unitID: 0
   occupiedCell: {x: 0, y: 0, z: 0}
   healBonus: 0
+  range: {fileID: 0}
   blockNeed: 0
   speed: 0
   enemyType: 0

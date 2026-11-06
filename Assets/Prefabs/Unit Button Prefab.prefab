@@ -148,16 +148,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1348554092e3c459aee54fe0cecbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 4657466468337681852}
   unit: {fileID: 0}
-  deploySystem: {fileID: 0}
-  bitiumSystem: {fileID: 0}
   button: {fileID: 5347251143671998812}
+  icon: {fileID: 4657466468337681852}
   cost: 0
   costText: {fileID: 150470382879082512}
   spawnedUnit: {fileID: 0}
+  spawnedUnitData: {fileID: 0}
   deployedOverlay: {fileID: 3146795716300004809}
   skillReadyIcon: {fileID: 0}
+  redeployTime: 0
+  redeploymentTimer: 0
+  onCD: 0
 --- !u!1 &3146795716300004809
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,8 +402,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

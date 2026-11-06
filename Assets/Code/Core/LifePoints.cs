@@ -54,8 +54,7 @@ public class LifePoints : MonoBehaviour
 
     private void GameOver()
     {
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(true);
+        gameOverPanel.SetActive(true);
 
         Time.timeScale = 0f;
         Debug.Log("Игра окончена!");

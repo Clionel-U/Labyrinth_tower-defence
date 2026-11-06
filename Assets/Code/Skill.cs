@@ -125,7 +125,6 @@ public abstract class Skill : MonoBehaviour
         // Ручная активация требует полного SP
         if (activationType == ActivationType.Manual && currentSP < maxSP) return;
         
-
         isActive = true;
 
         if (hasDuration)

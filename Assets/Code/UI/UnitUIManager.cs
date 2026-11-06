@@ -16,6 +16,7 @@ public class UnitUIManager : MonoBehaviour
 
     private GameObject currentUnit;
     private UnitButton currentButton;
+    private Skill currentSkill;
     public bool panelOpened = false;
 
     private EntityData unitData;
@@ -27,6 +28,9 @@ public class UnitUIManager : MonoBehaviour
     public Slider hpSlider;
     public TMP_Text skill;
     public TMP_Text skillDesc;
+    public Image skillIcon;
+    public List<Sprite> skillIcons = new List<Sprite>();
+    public TMP_Text sp;
 
 
     private void Awake()
@@ -54,7 +58,7 @@ public class UnitUIManager : MonoBehaviour
         }
         currentUnit = unit;
         currentButton = button;
-
+        currentSkill = currentUnit.GetComponent<Skill>();
         unitData = currentUnit.GetComponent<EntityData>();
         _name.text = $"{unitData._name}";
         atk.text = $"{unitData.ATK}";
@@ -64,37 +68,47 @@ public class UnitUIManager : MonoBehaviour
         hpSlider.maxValue = unitData.maxHP;
         hpSlider.value = unitData.HP;
         unitData.OnHPChanged += UpdateHP;
+        sp.text = $"{Mathf.RoundToInt(currentSkill.currentSP)}/{currentSkill.maxSP}";
+        currentSkill.OnSPChanged += UpdateSP;
+        if (currentSkill.activationType == ActivationType.Auto || currentSkill.currentSP < currentSkill.maxSP) skillButton.interactable = false;
 
         switch (unitData.unitID)
         {
             case 1:
                 skill.text = "Арсенал двойников";
                 skillDesc.text = @"АТК +0%, атакует дважды, первая атака наносит физический урон, вторая атака наносит магический урон";
+                skillIcon.sprite = skillIcons[0];
                 break;
             case 2:
                 skill.text = "Метаморфоза";
                 skillDesc.text = @"Перестает блокировать врагов, АТК +0%, область атаки изменяется, теперь может атаковать воздушных врагов";
+                skillIcon.sprite = skillIcons[1];
                 break;
             case 3:
                 skill.text = "Всемирная пытка";
                 skillDesc.text = @"Все враги на карте 3 раза получают физический урон в размере 60% от АТК";
+                skillIcon.sprite = skillIcons[2];
                 break;
             case 4:
                 skill.text = "Препарат NT-X7";
                 skillDesc.text = @"Бросает препарат во врага, замедляя его и отравляя (наносит магический урон в размере % от АТК каждую секунду) в течении 3 секунд";
+                skillIcon.sprite = skillIcons[3];
                 break;
             case 5:
                 skill.text = "Раздор";
                 skillDesc.text = @"Пассивно: вместо атаки накладывает на врагов в области атаки эффект ""Разлад"" (наносит урон в размере % от АТК каждые секунды)
 Активно: все враги на карте получают единоразовый магический урон в размере % от АТК и эффект ""Разлад"" на всю длительность навыка, теперь может атаковать врагов в области атаки";
+                skillIcon.sprite = skillIcons[4];
                 break;
             case 6:
                 skill.text = "Нейросимфония";
                 skillDesc.text = @"Увеличивает эффективность лечения юнитов в области навыка на 20%, +20% АТК всем юнитам в области навыка";
+                skillIcon.sprite = skillIcons[5];
                 break;
             case 7:
                 skill.text = "Обострение";
                 skillDesc.text = @"Область атаки уменьшается, Интервал атаки -0%";
+                skillIcon.sprite = skillIcons[6];
                 break;
             case 8:
                 skill.text = "Магические пули";
@@ -103,10 +117,12 @@ public class UnitUIManager : MonoBehaviour
 Пуля 7: Стреляет в случайного юнита, нанося ему урон в размере 60% от максимального ХП цели + 100% АТК
 После 7-ой пули счетчик пуль сбрасывается, АТК +0%
 После выстрела +1 пуля";
+                skillIcon.sprite = skillIcons[7];
                 break;
             case 9:
                 skill.text = "Подрыв";
                 skillDesc.text = @"Все враги в области атаки получают магический урон в размере 0% от АТК и останавливаются на 0 секунд";
+                skillIcon.sprite = skillIcons[8];
                 break;
 
         }
@@ -117,30 +133,43 @@ public class UnitUIManager : MonoBehaviour
 
     public void Close()
     {
+        if (!panelOpened) return;
+        if (currentUnit != null) unitData.OnHPChanged -= UpdateHP;
+        if (currentSkill != null) currentSkill.OnSPChanged -= UpdateSP;
+
         panel.SetActive(false);
         currentUnit = null;
         currentButton = null;
         panelOpened = false;
-        unitData.OnHPChanged -= UpdateHP;
+        currentSkill = null;
         unitData = null;
 
     }
 
     public void UpdateHP(int current, int max)
     {
-
+        if (hp == null) return;
         hp.text = $"{current}/{max}";
         hpSlider.value = current;
+    }
+
+    public void UpdateSP()
+    {
+        sp.text = $"{Mathf.RoundToInt(currentSkill.currentSP)}/{currentSkill.maxSP}";
+        if (currentSkill.currentSP >= currentSkill.maxSP && currentSkill.activationType == ActivationType.Manual)
+            skillButton.interactable = true;
+        else if (currentSkill.canToggleOff && currentSkill.isActive)
+            skillButton.interactable = true;
+        else skillButton.interactable = false;
     }
 
     public void UseSkill()
     {
         if (currentUnit == null) return;
 
-        Skill skill = currentUnit.GetComponent<Skill>();
-        if (skill != null && skill.activationType != ActivationType.OnDeploy)
+        if (currentSkill != null && currentSkill.activationType != ActivationType.OnDeploy)
         {
-            skill.Activate(); 
+            currentSkill.Activate(); 
         }
     }
 
