@@ -23,7 +23,7 @@ public class BossSkills : MonoBehaviour
         atkComp.onAttack += HeartBreakInc;
     }
 
-    [Header("Гепарин с Варфарином")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public int bleedDamage;
     public float bleedTickInterval;
     public float bleedDuration;
@@ -33,7 +33,7 @@ public class BossSkills : MonoBehaviour
     private float bleedTimer;
 
 
-    [Header("Адреналин")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public float speedBuffMultiplier;
     public float atkBuffMultiplier;
     public float buffDuration;
@@ -42,17 +42,17 @@ public class BossSkills : MonoBehaviour
 
     private float adrenalineTimer;
 
-    [Header("Разбиватель сердец")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")]
     [Range(0, 4)] public int attacksCount = 0;
     public float atkMultiplier = 3f;
 
-    [Header("Перераспределение любви")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")]
     public int auraTickAtk;
     public float auraTickInterval;
 
     private float auraTickTimer;
 
-    [Header("Любовь убивает")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public int loveStacks = 0;
     public int loveMax = 100;
     public float hpTreshold;
@@ -68,39 +68,39 @@ public class BossSkills : MonoBehaviour
         }
         else if (core.currentStage == 2)
         {
-            // 1. Аура урона и Адреналина работают постоянно
+            // 1. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             LoveRedistribution();
             AdrenalineAura();
 
-            // 2. Проверка условия: потеря hpTreshold ХП
-            // Если босс потерял больше или равно hpTreshold от своего текущего здоровья с момента последней проверки
+            // 2. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ hpTreshold пїЅпїЅ
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ hpTreshold пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (lastHpCheck - self.HP >= hpTreshold && hpTreshold > 0)
             {
                 LoveKills();
-                lastHpCheck = lastHpCheck - hpTreshold; // Обновляем точку отсчета
+                lastHpCheck = lastHpCheck - hpTreshold; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             }
         }
     }
 
     private void HandleSkillsStage1()
     {
-        // 1. Логика Гепарина и Варфарина
+        // 1. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         bleedTimer += Time.deltaTime;
         if (bleedTimer >= bleedInterval)
         {
-            // Ищем цель среди юнитов, у которой нет кровотечения
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             foreach (var unit in UnitsList.targetsInRange)
             {
                 if (unit != null && !activeBleeds.ContainsKey(unit))
                 {
                     GepAndWarf(unit);
-                    bleedTimer = 0; // Сбрасываем таймер только если нашли цель
+                    bleedTimer = 0; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                     break;
                 }
             }
         }
 
-        // 2. Логика Адреналина
+        // 2. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         adrenalineTimer += Time.deltaTime;
         if (adrenalineTimer >= buffInterval)
         {
@@ -111,18 +111,18 @@ public class BossSkills : MonoBehaviour
                 {
                     Adrenaline(enemy);
                     buffedCount++;
-                    if (buffedCount >= 3) break; // До 3-х врагов
+                    if (buffedCount >= 3) break; // пїЅпїЅ 3-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 }
             }
 
             if (buffedCount > 0)
             {
-                adrenalineTimer = 0; // Сбрасываем только если хоть кто-то получил бафф
+                adrenalineTimer = 0; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             }
         }
 
-        // 3. Логика Разрушителя сердец
-        // Активируется сам, если готов кулдаун и накоплены стаки
+        // 3. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         if (attacksCount == 4 && atkComp.cooldown < 0.1f)
         {
             if (atkComp.targetsInRange.Count > 0)
@@ -142,7 +142,7 @@ public class BossSkills : MonoBehaviour
         Coroutine bleedRoutine = StartCoroutine(BleedRoutine(target));
         activeBleeds.Add(target, bleedRoutine);
 
-        Debug.Log($"ГсВ {target}");
+        Debug.Log($"пїЅпїЅпїЅ {target}");
     }
 
     private IEnumerator BleedRoutine(EntityData target)
@@ -151,16 +151,16 @@ public class BossSkills : MonoBehaviour
 
         while (elapsed < bleedDuration)
         {
-            // Проверяем, не умер ли юнит от чего-то другого
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (target == null || target.HP <= 0) break;
 
             target.TakeDamage(bleedDamage);
 
-            yield return new WaitForSeconds(bleedTickInterval); // Тик раз в секунду
+            yield return new WaitForSeconds(bleedTickInterval); // пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             elapsed += bleedTickInterval;
         }
 
-        // Чистим словарь по окончании
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (target != null) activeBleeds.Remove(target);
     }
 
@@ -172,14 +172,14 @@ public class BossSkills : MonoBehaviour
         if (activeAdrenalines.ContainsKey(ally)) return;
 
         activeAdrenalines.Add(ally, StartCoroutine(AdrenalineRoutine(ally)));
-        Debug.Log($"Адреналинчик {ally}");
+        Debug.Log($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {ally}");
     }
 
     private IEnumerator AdrenalineRoutine(EntityData ally)
     {
         if (ally == null) yield break;
 
-        // Запоминаем старые статы, чтобы потом вернуть
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         int bonusAtk = Mathf.RoundToInt(ally.ATK * atkBuffMultiplier);
         float bonusSpeed = (ally.speed * speedBuffMultiplier);
 
@@ -188,24 +188,24 @@ public class BossSkills : MonoBehaviour
 
         if (core.currentStage == 1)
         {
-            // ЛОГИКА 1 СТАДИИ: Просто ждем длительность и выходим
+            // пїЅпїЅпїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             yield return new WaitForSeconds(buffDuration);
         }
         else
         {
-            // ЛОГИКА 2 СТАДИИ: Бесконечный бафф, пока в области + buffDuration после
+            // пїЅпїЅпїЅпїЅпїЅпїЅ 2 пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ + buffDuration пїЅпїЅпїЅпїЅпїЅ
 
-            // 1. Пока враг в списке EnemiesList — просто ждем (бафф висит)
+            // 1. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ EnemiesList пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
             while (ally != null && EnemiesList.targetsInRange.Contains(ally))
             {
-                yield return new WaitForSeconds(0.5f); // Проверка раз в полсекунды для оптимизации
+                yield return new WaitForSeconds(0.5f); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             }
 
-            // 2. Как только враг вышел из списка (или список пуст) — ждем финальный buffDuration
+            // 2. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ) пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ buffDuration
             yield return new WaitForSeconds(buffDuration);
         }
 
-        // Возвращаем как было, если союзник еще жив
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ
         if (ally != null)
         {
             ally.ATK -= bonusAtk;
@@ -232,7 +232,7 @@ public class BossSkills : MonoBehaviour
             atkComp.cooldown = self.attackInterval * 3;
             attacksCount = 0;
         }
-        Debug.Log($"Крушитель {target}");
+        Debug.Log($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {target}");
     }
 
     public void Stage2Transition()
@@ -250,27 +250,27 @@ public class BossSkills : MonoBehaviour
     {
         auraTickTimer += Time.deltaTime;
 
-        if (auraTickTimer >= auraTickInterval) // Тик ауры раз в секунду
+        if (auraTickTimer >= auraTickInterval) // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         {
-            // 1. Воздействие на Юнитов (Урон и стаки Любви)
-            // Делаем копию списка, на случай если юнит умрет во время цикла
+            // 1. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             List<EntityData> currentUnits = new List<EntityData>(UnitsList.targetsInRange);
 
             foreach (var unit in currentUnits)
             {
                 if (unit == null || unit.HP <= 0) continue;
 
-                // Наносим урон ауры
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 unit.TakeDamage(Damage.CalculateFromAttack(auraTickAtk, AtkType.Magical, unit));
 
-                // Нанесенный урон конвертируется в стаки Любви
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                 loveStacks += auraTickAtk;
-                Debug.Log($"Аура дамажит {unit}");
+                Debug.Log($"пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {unit}");
             }
 
             if (loveStacks >= loveMax) LoveKills();
 
-            auraTickTimer = 0; // Сброс таймера тика
+            auraTickTimer = 0; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         }
     }
 
@@ -301,6 +301,6 @@ public class BossSkills : MonoBehaviour
                  unit.TakeDamage(finalDmg);
             }
         }
-        Debug.Log("взрыв");
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅ");
     }
 }

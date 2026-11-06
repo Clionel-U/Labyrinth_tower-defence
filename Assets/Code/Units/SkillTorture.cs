@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SkillTorture : Skill
 {
-    [Header("Всемирная пытка")]
-    public float damagePercent = 0.6f; // 60% от ATK за каждый хит
-    public int hitCount = 3;           // количество инстанций урона
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")]
+    public float damagePercent = 0.6f; // 60% пїЅпїЅ ATK пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+    public int hitCount = 3;           // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     private int skillAtk;
 
     protected override void Awake()
@@ -22,7 +22,7 @@ public class SkillTorture : Skill
     {
         if (AllEnemies.allEnemies.Count == 0)
         {
-            Debug.Log("Нет врагов для пытки");
+            Debug.Log("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
             return false;
         }
         else
@@ -35,7 +35,7 @@ public class SkillTorture : Skill
     {
         skillAtk = Mathf.RoundToInt(self.ATK * damagePercent);
 
-        // Находим всех врагов на сцене
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         EntityData[] allEnemies = FindObjectsOfType<EntityData>();
 
         foreach (var enemy in allEnemies)
@@ -44,13 +44,13 @@ public class SkillTorture : Skill
 
             for (int i = 0; i < hitCount; i++)
             {
-                if (enemy == null) break; // враг мог умереть от предыдущего хита
+                if (enemy == null) break; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 int dmg = Damage.CalculateFromAttack(skillAtk, AtkType.Physical, enemy);
                 enemy.TakeDamage(dmg);
             }
         }
 
-        // Одноразовый скилл — сразу деактивируем
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Deactivate();
     }
 

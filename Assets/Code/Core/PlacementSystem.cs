@@ -16,11 +16,11 @@ public class PlacementSystem : MonoBehaviour
 
             if (grid.IsHighGround(mouseWorld))
             {
-                Debug.Log("HighGround - ставим дальника");
+                Debug.Log("HighGround - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
             else if (grid.IsGround(mouseWorld))
             {
-                Debug.Log("Ground - ставим мили");
+                Debug.Log("Ground - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
             }
             //else if (grid.IsOther(mouseWorld))
             //{
@@ -28,7 +28,7 @@ public class PlacementSystem : MonoBehaviour
             //}
             else
             {
-                Debug.Log("Нельзя ставить");
+                Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
         }
     }

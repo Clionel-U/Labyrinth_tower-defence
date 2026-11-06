@@ -29,7 +29,7 @@ public class HealTargetInRange : MonoBehaviour
 
         if (!healAll)
         {
-            // Ищем союзника с наименьшим HP
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ HP
             EntityData target = null;
             float lowestHPPercent = float.MaxValue;
 
@@ -45,7 +45,7 @@ public class HealTargetInRange : MonoBehaviour
                 }
             }
 
-            if (target == null) return; // все здоровы
+            if (target == null) return; // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
             target.Heal(self.ATK);
         }
@@ -61,7 +61,7 @@ public class HealTargetInRange : MonoBehaviour
 
         cooldown = self.attackInterval;
 
-        // Зарядка SP за атаку
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ SP пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         Skill skill = GetComponent<Skill>();
         if (skill != null && skill.spChargeType == SPChargeType.PerAttack)
             skill.ChargePerAttack();

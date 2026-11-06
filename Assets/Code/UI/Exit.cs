@@ -7,7 +7,7 @@ public class Exit : MonoBehaviour
     public SceneFade sf;
     public void Restart()
     {
-        // Загружаем сцену с игрой
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
         sf.ToScene(1);
     }
 

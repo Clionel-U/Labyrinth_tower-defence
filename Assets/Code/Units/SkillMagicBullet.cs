@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SkillMagicBullet : Skill
 {
-    [Header("Параметры Магических пуль")]
-    [Range(1, 7)] public int currentBullets = 1; // Текущий счетчик пуль
-    public int attackPermanentBonus;         // Тот самый вечный бафф
-    public float friendlyFireMaxHPPercent = 0.6f; // 60% макс ХП союзника
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ")]
+    [Range(1, 7)] public int currentBullets = 1; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    public int attackPermanentBonus;         // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    public float friendlyFireMaxHPPercent = 0.6f; // 60% пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     private TargetInRange _targetList;
     private AttackTargetInRange attackComp;
@@ -15,9 +15,9 @@ public class SkillMagicBullet : Skill
     protected override void Awake()
     {
         base.Awake();
-        spChargeType = SPChargeType.PerAttack; // Заряжается от атак
+        spChargeType = SPChargeType.PerAttack; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
         activationType = ActivationType.Auto;
-        hasDuration = false; // Мгновенный выстрел
+        hasDuration = false; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         maxSP = 6f;
 
         _targetList = GetComponent<TargetInRange>();
@@ -28,7 +28,7 @@ public class SkillMagicBullet : Skill
     {
         if (attackComp.cooldown > 0.1f) return false;
 
-        if (currentBullets == 7) return true; // 7-я пуля всегда может выстрелить в союзника
+        if (currentBullets == 7) return true; // 7-пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         if (targetList.targetsInRange.Count > 0) return true;
 
@@ -46,18 +46,18 @@ public class SkillMagicBullet : Skill
             ShootAlly();
         }
 
-        attackComp.cooldown = self.attackInterval; // Сбрасываем кулдаун атаки после выстрела
+        attackComp.cooldown = self.attackInterval; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-        // Логика изменения счетчика ПОСЛЕ выстрела
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         IncrementBullets();
 
-        // Скилл мгновенный, поэтому сразу деактивируем
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Deactivate();
     }
 
     private void ShootEnemy()
     {
-        // Ищем врага с наименьшей защитой (DEF)
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (DEF)
         EntityData target = null;
         int minDef = int.MaxValue;
 
@@ -74,12 +74,12 @@ public class SkillMagicBullet : Skill
 
         if (target != null)
         {
-            // bulletAtk = ATK * 2 * количество пуль
+            // bulletAtk = ATK * 2 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             int bulletAtk = Mathf.RoundToInt(self.ATK * 2 * currentBullets);
             int finalDamage = Damage.CalculateFromAttack(bulletAtk, AtkType.Physical, target);
 
             target.TakeDamage(finalDamage);
-            Debug.Log($"Магическая пуля ({currentBullets}) поразила {target._name} на {finalDamage} урона");
+            Debug.Log($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ ({currentBullets}) пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {target._name} пїЅпїЅ {finalDamage} пїЅпїЅпїЅпїЅпїЅ");
         }
     }
 
@@ -89,20 +89,20 @@ public class SkillMagicBullet : Skill
 
         if (_targetList.targetsInRange.Count > 0)
         {
-            // Случайный другой союзник
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             targetAlly = _targetList.targetsInRange[Random.Range(0, _targetList.targetsInRange.Count)];
         }
         else
         {
-            // Если никого нет - стреляет в себя
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
             targetAlly = self;
         }
 
-        // Урон по союзнику = 60% макс хп союзника + атака (Игнорируя защиту)
+        // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ = 60% пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ + пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
         int damage = Mathf.RoundToInt(targetAlly.maxHP * friendlyFireMaxHPPercent) + self.ATK;
         targetAlly.TakeDamage(damage);
 
-        Debug.Log($"7-я пуля поразила союзника {targetAlly._name} на {damage} чистого урона");
+        Debug.Log($"7-пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {targetAlly._name} пїЅпїЅ {damage} пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
     }
 
     private void IncrementBullets()
@@ -112,10 +112,10 @@ public class SkillMagicBullet : Skill
         if (currentBullets > 7)
         {
             currentBullets = 1;
-            // Вечный бафф к атаке
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
             self.baseATK += attackPermanentBonus;
-            self.ATK += attackPermanentBonus; // Обновляем и текущую атаку
-            Debug.Log($"Цикл завершен. Атака {self._name} навсегда увеличена на {attackPermanentBonus}.");
+            self.ATK += attackPermanentBonus; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            Debug.Log($"пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ {self._name} пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ {attackPermanentBonus}.");
         }
     }
 

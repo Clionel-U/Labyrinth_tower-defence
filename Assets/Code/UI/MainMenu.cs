@@ -6,12 +6,12 @@ public class MainMenu : MonoBehaviour
     public SceneFade sf;
     public void Play()
     {
-        // Загружаем сцену с игрой
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
         sf.ToScene(1);
     }
 
     public void QuitGame()
     {
-        Application.Quit(); // Закрывает приложение (работает в билде)
+        Application.Quit(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ)
     }
 }

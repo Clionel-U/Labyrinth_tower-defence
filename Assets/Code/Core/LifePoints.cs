@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class LifePoints : MonoBehaviour
 {
-    [Header("Настройки")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public int maxLives;
     public int currentLives;
 
-    [Header("Ссылки")]
-    public WaveManager enemyManager; // Ссылка на скрипт, где находится EnemyReachedGoal
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public WaveManager enemyManager; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ EnemyReachedGoal
     public TMPro.TMP_Text livesText;
     public GameObject gameOverPanel;
 
@@ -21,14 +21,14 @@ public class LifePoints : MonoBehaviour
 
     private void OnEnable()
     {
-        // Подписываемся на событие
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (enemyManager != null)
             enemyManager.OnReachedGoal += TakeDamage;
     }
 
     private void OnDisable()
     {
-        // Отписываемся (хороший тон для предотвращения утечек памяти)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
         if (enemyManager != null)
             enemyManager.OnReachedGoal -= TakeDamage;
     }
@@ -57,6 +57,6 @@ public class LifePoints : MonoBehaviour
         gameOverPanel.SetActive(true);
 
         Time.timeScale = 0f;
-        Debug.Log("Игра окончена!");
+        Debug.Log("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
     }
 }

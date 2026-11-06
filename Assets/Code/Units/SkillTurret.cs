@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SkillTurret : Skill
 {
-    [Header("Блок")]
+    [Header("пїЅпїЅпїЅпїЅ")]
     public GameObject block;
     private UnitBlock blockComp;
 
-    [Header("Зоны атаки")]
-    public GameObject normalRange;   // обычная зона — назначить в инспекторе
-    public GameObject skillRange;    // зона скилла — назначить в инспекторе
+    [Header("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")]
+    public GameObject normalRange;   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    public GameObject skillRange;    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     private Range normalRangeComp;
     private Range skillRangeComp;
@@ -30,13 +30,13 @@ public class SkillTurret : Skill
         skillRangeComp = skillRange.GetComponent<Range>();
         skillRangeCollider = skillRange.GetComponent<BoxCollider2D>();
 
-        // Зона скилла изначально выключена
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         skillRange.SetActive(false);
     }
 
     protected override void OnSkillActivate()
     {
-        // Принудительно освобождаем всех заблокированных врагов
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if (block != null)
         {
             ForceUnblockAll();
@@ -45,7 +45,7 @@ public class SkillTurret : Skill
 
         normalRangeComp.targetList.targetsInRange.Clear();
 
-        // Меняем зоны
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         normalRange.SetActive(false);
         skillRange.SetActive(true);
 
@@ -54,13 +54,13 @@ public class SkillTurret : Skill
 
     protected override void OnSkillDeactivate()
     {
-        // Возвращаем блокировку
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (block != null)
             block.SetActive(true);
 
         skillRangeComp.targetList.targetsInRange.Clear();
 
-        // Возвращаем зоны
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         skillRange.SetActive(false);
         normalRange.SetActive(true);
 

@@ -36,7 +36,7 @@ public class DeploySystem : MonoBehaviour
 
     public void SelectUnit(GameObject unitPrefab, UnitButton button)
     {
-        // повторный клик = отмена
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ = пїЅпїЅпїЅпїЅпїЅпїЅ
         if (state != DeployState.None && selectedUnit == unitPrefab)
         {
             CancelDeploy();
@@ -60,7 +60,7 @@ public class DeploySystem : MonoBehaviour
         previewRangePrefab.transform.localPosition = selUnitData.range.transform.localPosition;
 
         state = DeployState.SelectingTile;
-        Debug.Log("Выбор клетки");
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
     }
 
     void Update()
@@ -90,7 +90,7 @@ public class DeploySystem : MonoBehaviour
 
                 state = DeployState.SelectingDirection;
                 DirectionSelection(pos);
-                Debug.Log("Выбор направления");
+                Debug.Log("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
         }
     }
@@ -124,7 +124,7 @@ public class DeploySystem : MonoBehaviour
         confirmButton.gameObject.SetActive(false);
         TileHighlighter.Instance.Clear();
         Destroy(dirButtons);
-        Debug.Log("Юнит установлен");
+        Debug.Log("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
         UnitUIManager.Instance.Close();
     }
 
@@ -141,6 +141,6 @@ public class DeploySystem : MonoBehaviour
         state = DeployState.None;
         confirmButton.gameObject.SetActive(false);
         TileHighlighter.Instance.Clear();
-        Debug.Log("Отмена деплоя");
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
     }
 }

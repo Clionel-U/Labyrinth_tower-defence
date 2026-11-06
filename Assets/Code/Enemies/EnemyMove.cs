@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour
 {
     private EnemyPath path;
-    private int currentIndex = 1; // сразу к следующей точке
+    private int currentIndex = 1; // пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     private EnemyBlock block;
     private EntityData data;
     private SpriteRenderer sr;
@@ -53,7 +53,7 @@ public class EnemyMove : MonoBehaviour
             speed * Time.deltaTime
         );
 
-        // Поворот по направлению
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Vector3 dir = (target.position - transform.position).normalized;
         if (dir.x != 0)
             sr.flipX = dir.x < 0;

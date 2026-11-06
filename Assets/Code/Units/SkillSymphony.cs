@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class SkillSymphony : Skill
 {
-    [Header("Нейросимфония")]
-    public float healBoostPercent = 0.2f;  // +20% к лечению
-    public float atkBoostPercent = 0.2f;   // +20% к атаке союзников
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public float healBoostPercent = 0.2f;  // +20% пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    public float atkBoostPercent = 0.2f;   // +20% пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     private HealTargetInRange healComp;
     private int healBuff;
 
-    // Отслеживаем забаффенных союзников и их бонус
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     private List<EntityData> buffedAllies = new List<EntityData>();
 
     protected override void Awake()
@@ -30,24 +30,24 @@ public class SkillSymphony : Skill
     {
         base.Update();
 
-        // Пока скилл активен — следим за новыми союзниками в зоне
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
         if (!isActive) return;
 
         foreach (var ally in healComp.targetsInRange)
         {
             if (ally == null) continue;
-            if (buffedAllies.Contains(ally)) continue; // уже забаффен
+            if (buffedAllies.Contains(ally)) continue; // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
             ApplyAtkBuff(ally);
         }
 
-        // Снимаем бафф с тех кто вышел из зоны
-        // (опционально — зависит от дизайна, сейчас бафф висит до деактивации)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
+        // (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
     }
 
     protected override void OnSkillActivate()
     {
-        // Баффаем всех союзников в зоне
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
         foreach (var ally in healComp.targetsInRange)
         {
             if (ally == null) continue;
@@ -57,7 +57,7 @@ public class SkillSymphony : Skill
 
     protected override void OnSkillDeactivate()
     {
-        // Снимаем бафф атаки со всех союзников
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         foreach (var ally in buffedAllies)
         {
             if (ally == null) continue;
