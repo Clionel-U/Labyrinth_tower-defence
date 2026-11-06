@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SkillPotion : Skill
 {
-    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ NT-X7")]
-    public float poisonDamagePercent = 0.4f; // % пїЅпїЅ ATK пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ
-    public float slowPercent = 0.5f;          // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 50%
-    public float effectDuration;         // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-    public float poisonTickInterval;     // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+    [Header("Препарат NT-X7")]
+    public float poisonDamagePercent = 0.4f; // % от ATK за каждый тик яда
+    public float slowPercent = 0.5f;          // замедление на 50%
+    public float effectDuration;         // длительность яда и замедления
+    public float poisonTickInterval;     // интервал тика яда
 
     private HealTargetInRange healComp;
     private TargetInRange _targetList;
@@ -40,7 +40,7 @@ public class SkillPotion : Skill
 
     protected override void OnSkillActivate()
     {
-        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // Берём врага
         EntityData target = _targetList.targetsInRange[0];
 
         if (target != null)
@@ -66,7 +66,7 @@ public class SkillPotion : Skill
 
         while (elapsed < effectDuration)
         {
-            if (target == null) yield break; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            if (target == null) yield break; // враг умер
 
             tickTimer += Time.deltaTime;
             elapsed += Time.deltaTime;
@@ -75,7 +75,7 @@ public class SkillPotion : Skill
             {
                 tickTimer = 0f;
                 
-                // пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+                // Яд — магический урон
                 int dmg = Damage.CalculateFromAttack(poisonAtk, AtkType.Magical, target);
                 target.TakeDamage(dmg);
             }
@@ -83,7 +83,7 @@ public class SkillPotion : Skill
             yield return null;
         }
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ
+        // Снимаем замедление если враг ещё жив
         if (target != null && !target.isBoss)
             target.speed = originalSpeed;
     }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SpawnEffect : MonoBehaviour
 {
-    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
-    public float fadeDuration = 0.5f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-    public Color spawnColor = Color.black; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+    [Header("Настройки эффекта")]
+    public float fadeDuration = 0.5f; // Длительность появления в секундах
+    public Color spawnColor = Color.black; // Начнем с черного (можно сделать прозрачным)
 
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -18,8 +18,8 @@ public class SpawnEffect : MonoBehaviour
         
         if (spriteRenderer != null)
         {
-            originalColor = spriteRenderer.color; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅ" пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-            spriteRenderer.color = spawnColor; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+            originalColor = spriteRenderer.color; // Запоминаем "родной" цвет из инспектора
+            spriteRenderer.color = spawnColor; // Мгновенно делаем черным
         }
         else enabled = false;
     }
@@ -37,19 +37,19 @@ public class SpawnEffect : MonoBehaviour
         isSpawned = true;
         float elapsed = 0f;
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ spawnColor (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ) пїЅ originalColor (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+        // Плавно меняем цвет от spawnColor (черного) к originalColor (родному)
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
 
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Lerp
+            // Расчитываем промежуточный цвет с помощью Lerp
             Color current = Color.Lerp(spawnColor, originalColor, elapsed / fadeDuration);
             spriteRenderer.color = current;
 
-            yield return null; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            yield return null; // Ждем следующий кадр
         }
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        // Гарантируем, что в конце установится точный оригинальный цвет
         spriteRenderer.color = originalColor;
     }
 }

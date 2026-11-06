@@ -24,11 +24,11 @@ public class Skill_Test_Manual_Time : Skill
 
     protected override void OnSkillActivate()
     {
-        Debug.Log($"{self._name}: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (Manual/Time)");
+        Debug.Log($"{self._name}: скилл активирован (Manual/Time)");
     }
 
     protected override void OnSkillDeactivate()
     {
-        Debug.Log($"{self._name}: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+        Debug.Log($"{self._name}: скилл завершён");
     }
 }

@@ -10,7 +10,7 @@ public class SceneFade : MonoBehaviour
 
     private void Start()
     {
-        // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // При старте сцены плавно проявляем её из черного
         StartCoroutine(Fade(1, 0));
     }
 
@@ -21,9 +21,9 @@ public class SceneFade : MonoBehaviour
 
     private IEnumerator SwitchScene(int index)
     {
-        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // Плавно затемняем экран
         yield return StartCoroutine(Fade(0, 1));
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // Загружаем новую сцену
         SceneManager.LoadScene(index);
     }
 

@@ -22,35 +22,35 @@ public class AttackTargetInRange : MonoBehaviour
 
     private void Update()
     {
-        if (cooldown > 0f) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
+        if (cooldown > 0f) // уменьшаем кулдаун если он есть
             cooldown -= Time.deltaTime;
 
-        targetsInRange.RemoveAll(t => t == null); // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        targetsInRange.RemoveAll(t => t == null); // чистим список
 
-        if (targetsInRange.Count == 0) return; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        if (targetsInRange.Count == 0) return; // если нет врагов — ничего не делаем
                 
-        if (cooldown > 0f) return; // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        if (cooldown > 0f) return; // если кд не прошёл — не атакуем
 
-        EntityData target = targetsInRange[0]; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        EntityData target = targetsInRange[0]; // выбираем цель
 
         if (target.isInvulnerable)
         {
             if (targetsInRange.Count > 1)
-                target = targetsInRange[1]; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                target = targetsInRange[1]; // если первая цель неуязвима, пробуем вторую
             else
-                return; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                return; // если второй цели нет — ничего не делаем
         }
 
         if (doubleAttack)
         {
-            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            // Первый хит — физический
             AtkType originalType = self.atkType;
 
             self.atkType = AtkType.Physical;
             int physDmg = Damage.Calculate(self, target);
             target.TakeDamage(physDmg);
 
-            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)
+            // Второй хит — магический (только если цель ещё жива)
             if (target != null)
             {
                 self.atkType = AtkType.Magical;
@@ -58,7 +58,7 @@ public class AttackTargetInRange : MonoBehaviour
                 target.TakeDamage(magDmg);
             }
                         
-            self.atkType = originalType; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            self.atkType = originalType; // Восстанавливаем оригинальный тип атаки
         }
         else
         {
@@ -66,7 +66,7 @@ public class AttackTargetInRange : MonoBehaviour
             target.TakeDamage(dmg);
         }
 
-        cooldown = self.attackInterval; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        cooldown = self.attackInterval; // запускаем кулдаун после атаки
 
         Skill skill = GetComponent<Skill>();
         if (skill != null && skill.spChargeType == SPChargeType.PerAttack)

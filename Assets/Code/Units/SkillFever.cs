@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SkillFever : Skill
 {
-    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
-    public float attackIntervalMultiplier = 0.5f; // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    [Header("Обострение")]
+    public float attackIntervalMultiplier = 0.5f; // во сколько раз уменьшается интервал
 
     public Sprite activeSprite;
     public Sprite normalSprite;
@@ -37,14 +37,14 @@ public class SkillFever : Skill
 
     protected override void OnSkillActivate()
     {
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // Уменьшаем интервал атаки
         self.attackInterval *= attackIntervalMultiplier;
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // Меняем спрайт
         if (activeSprite != null)
             sr.sprite = activeSprite;
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        // Меняем зону
         normalRangeComp.targetList.targetsInRange.Clear();
         normalRange.SetActive(false);
         skillRange.SetActive(true);
@@ -53,14 +53,14 @@ public class SkillFever : Skill
 
     protected override void OnSkillDeactivate()
     {
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // Возвращаем интервал атаки
         self.attackInterval /= attackIntervalMultiplier;
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // Возвращаем спрайт
         if (normalSprite != null)
             sr.sprite = normalSprite;
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+        // Возвращаем зону
         skillRangeComp.targetList.targetsInRange.Clear();
         skillRange.SetActive(false);
         normalRange.SetActive(true);

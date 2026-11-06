@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillExplosion : Skill
 {
-    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
+    [Header("Параметры Подрыва")]
     public float explosionDamageMultiplier = 3f;
     public float stopDuration = 3f;
     public AtkType damageType = AtkType.Magical;
@@ -18,7 +18,7 @@ public class SkillExplosion : Skill
         maxSP = 20f;
     }
 
-    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ?
+    // Проверка: есть ли кого подрывать?
     public override bool CanActivate()
     {
         if (targetList.targetsInRange.Count > 0) return true;
@@ -29,31 +29,31 @@ public class SkillExplosion : Skill
     {
         Explode();
 
-        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+        // Скилл мгновенный, завершаем его
         Deactivate();
     }
 
     private void Explode()
     {
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+        // Рассчитываем урон один раз
         int ExplodeAtk = Mathf.RoundToInt(self.ATK * explosionDamageMultiplier);
 
         foreach (var enemy in targetList.targetsInRange)
         {
             if (enemy == null) continue;
 
-            // 1. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            // 1. Наносим урон
             int finalDamage = Damage.CalculateFromAttack(ExplodeAtk, damageType, enemy);
             enemy.TakeDamage(finalDamage);
 
-            // 2. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            // 2. Останавливаем врага
             var movement = enemy.GetComponent<EnemyMove>();
             if (movement != null)
             {
                 movement.StopEnemy(stopDuration);
             }
 
-            Debug.Log($"пїЅпїЅпїЅпїЅ {enemy._name} пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ: {finalDamage}, пїЅпїЅпїЅпїЅ: {stopDuration}пїЅ.");
+            Debug.Log($"Враг {enemy._name} подорван. Урон: {finalDamage}, Стан: {stopDuration}с.");
         }
     }
 }

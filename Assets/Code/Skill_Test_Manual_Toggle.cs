@@ -22,11 +22,11 @@ public class Skill_Test_Manual_Toggle : Skill
 
     protected override void OnSkillActivate()
     {
-        Debug.Log($"{self._name}: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (Toggle ON)");
+        Debug.Log($"{self._name}: скилл включён (Toggle ON)");
     }
 
     protected override void OnSkillDeactivate()
     {
-        Debug.Log($"{self._name}: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (Toggle OFF)");
+        Debug.Log($"{self._name}: скилл выключен (Toggle OFF)");
     }
 }

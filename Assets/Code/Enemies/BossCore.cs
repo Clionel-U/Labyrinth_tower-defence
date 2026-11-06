@@ -8,7 +8,7 @@ public class BossCore : MonoBehaviour
     public GameObject block;
     public SpriteRenderer range;
 
-    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
+    [Header("Состояние")]
     public int currentStage = 1;
     public float stage2speed = 0.3f;
     //public bool isDead = false;
@@ -36,21 +36,21 @@ public class BossCore : MonoBehaviour
     private IEnumerator TransitionToStageTwo()
     {
         currentStage = 2;
-        // 1. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // 1. Делаем босса временно неуязвимым и неподвижным
         self.isInvulnerable = true;
         self.speed = 0;
 
-        // 2. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+        // 2. Визуальный эффект (например, босс стоит на коленях и восстанавливается)
         yield return new WaitForSeconds(3f);
 
-        // 3. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // 3. Обновляем статы
         self.HP = self.maxHP;
         self.isInvulnerable = false;
-        block.SetActive(false); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
-        self.speed = stage2speed; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        block.SetActive(false); // Убираем блок
+        self.speed = stage2speed; // Меняем скорость во второй стадии
         Stage2?.Invoke();
         range.enabled = true;
 
-        Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+        Debug.Log("вторая стадия");
     }
 }

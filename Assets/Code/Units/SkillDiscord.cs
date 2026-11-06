@@ -6,15 +6,15 @@ public class SkillDiscord : Skill
 {
     private readonly List<EntityData> keysCache = new List<EntityData>();
 
-    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
+    [Header("Параметры Мистюна")]
     public float mistuneDamagePercent;
     public float mistuneTickInterval;
     public float instantDamagePercent;
 
-    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    // Храним врага и время, когда ему в следующий раз нанести урон
     private readonly Dictionary<EntityData, float> activeMistunes = new Dictionary<EntityData, float>();
 
-    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+    // Список для удаления (чтобы не менять словарь во время перебора)
     private readonly List<EntityData> toRemove = new List<EntityData>();
 
     private AttackTargetInRange atkComp;
@@ -31,12 +31,12 @@ public class SkillDiscord : Skill
 
         atkComp = GetComponent<AttackTargetInRange>();
         _targetList = GetComponent<TargetInRange>();
-        atkComp.enabled = false; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        atkComp.enabled = false; // Включаем только при активации ульты
     }
 
     protected override void Update()
     {
-        base.Update(); // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ SP пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        base.Update(); // Важно для SP и таймера скилла
 
         HandleMistuneLogic();
     }
@@ -45,23 +45,23 @@ public class SkillDiscord : Skill
     {
         int mistuneAtk = Mathf.RoundToInt(self.ATK * mistuneDamagePercent);
 
-        // 1. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+        // 1. ОПРЕДЕЛЯЕМ ПУЛ ВРАГОВ
+        // Если скилл активен — берем всех. Если нет — только тех, кто в радиусе.
         var potentialTargets = isActive ? AllEnemies.allEnemies : _targetList.targetsInRange;
 
-        // 2. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // 2. ДОБАВЛЯЕМ НОВЫХ ВРАГОВ
         foreach (var enemy in potentialTargets)
         {
             if (enemy == null) continue;
 
             if (!activeMistunes.ContainsKey(enemy))
             {
-                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+                // Засекаем личное время первого тика (можно сделать мгновенно или через интервал)
                 activeMistunes.Add(enemy, Time.time + mistuneTickInterval);
             }
         }
 
-        // 3. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // 3. ТИКАЕМ УРОНОМ И ПРОВЕРЯЕМ ВЫХОД
         toRemove.Clear();
         keysCache.Clear();
 
@@ -69,24 +69,24 @@ public class SkillDiscord : Skill
 
         foreach (var enemy in keysCache)
         {
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ)
+            // Условие удаления: враг умер ИЛИ (скилл не активен И враг вышел из зоны)
             if (enemy == null || (!isActive && !_targetList.targetsInRange.Contains(enemy)))
             {
                 toRemove.Add(enemy);
                 continue;
             }
 
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ)
+            // ПРОВЕРКА ТАЙМЕРА (Индивидуальный тик)
             if (Time.time >= activeMistunes[enemy])
             {
                 int damage = Damage.CalculateFromAttack(mistuneAtk, AtkType.Magical, enemy);
                 enemy.TakeDamage(damage);
-                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+                // Назначаем время следующего тика для ЭТОГО врага
                 activeMistunes[enemy] = Time.time + mistuneTickInterval;
             }
         }
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" пїЅпїЅпїЅпїЅпїЅпїЅ
+        // Удаляем "отвалившихся" врагов
         foreach (var enemy in toRemove)
         {
             activeMistunes.Remove(enemy);
@@ -97,7 +97,7 @@ public class SkillDiscord : Skill
     {
         if (atkComp != null) atkComp.enabled = true;
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // Мгновенный урон по всем при прожатии
         int instantDmgAtk = Mathf.RoundToInt(self.ATK * instantDamagePercent);
         for (int i = AllEnemies.allEnemies.Count - 1; i >= 0; i--)
         {
@@ -108,16 +108,16 @@ public class SkillDiscord : Skill
             }
         }
 
-        // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ HandleMistuneLogic
+        // При активации мы не чистим словарь, так как враги в зоне просто 
+        // продолжат тикать по своим таймерам, а остальные добавятся в HandleMistuneLogic
     }
 
     protected override void OnSkillDeactivate()
     {
         if (atkComp != null) atkComp.enabled = false;
 
-        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, 
-        // пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // Когда ульта кончилась, нужно мгновенно убрать из словаря всех, 
+        // кто НЕ находится в зоне пассивки
         toRemove.Clear();
         foreach (var enemy in activeMistunes.Keys)
         {

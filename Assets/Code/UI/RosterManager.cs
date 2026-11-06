@@ -15,13 +15,13 @@ public class RosterManager : MonoBehaviour
     }
     void BuildRoster(List<GameObject> selectedUnits)
     {
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // очистка старых кнопок
         foreach (Transform child in rosterContainer)
         {
             Destroy(child.gameObject);
         }
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // сортировка
         var sorted = selectedUnits
         .Select(u => new { unit = u, data = u.GetComponent<EntityData>() })
         .OrderBy(x => x.data.cost)
@@ -29,7 +29,7 @@ public class RosterManager : MonoBehaviour
         .Select(x => x.unit)
         .ToList();
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // создание кнопок
         foreach (var unit in sorted)
         {
             GameObject btnObj = Instantiate(buttonPrefab, rosterContainer);

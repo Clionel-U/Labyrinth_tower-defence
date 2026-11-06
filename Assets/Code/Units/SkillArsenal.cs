@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class SkillArsenal : Skill
 {
-    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
-    public float atkIncreasePercent = 0.3f;  // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-    public Sprite activeSprite;          // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-    public Sprite normalSprite;          // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    [Header("Арсенал двойников")]
+    public float atkIncreasePercent = 0.3f;  // бафф атаки во время скилла
+    public Sprite activeSprite;          // спрайт во время скилла
+    public Sprite normalSprite;          // исходный спрайт
 
     private SpriteRenderer sr;
     private int buff;
@@ -33,7 +33,7 @@ public class SkillArsenal : Skill
         if (activeSprite != null)
             sr.sprite = activeSprite;
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        // Включаем двойную атаку
         attackComp.doubleAttack = true;
     }
 

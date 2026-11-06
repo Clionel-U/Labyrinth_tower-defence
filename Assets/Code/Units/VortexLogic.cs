@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class VortexLogic : MonoBehaviour
 {
-    public float rotationSpeed; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-    public int vortexAtk;                 // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-    public float damageInterval; // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    public float rotationSpeed; // Скорость вращения
+    public int vortexAtk;                 // Передается из скилла
+    public float damageInterval; // Как часто наносить урон одному врагу
 
     private float timer;
 
     public GameObject inner;
     public GameObject outer;
 
-    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    // Словарь для контроля кулдауна урона по каждому врагу
     private Dictionary<EntityData, float> damageTimers = new Dictionary<EntityData, float>();
 
     void Update()
     {
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        // Вращаем весь объект с душами
         inner.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
         outer.transform.Rotate(0, 0, 1.5f * -rotationSpeed * Time.deltaTime);
 
@@ -43,10 +43,10 @@ public class VortexLogic : MonoBehaviour
 
         if (Time.time >= damageTimers[enemy])
         {
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+            // Наносим урон
             int damage = Damage.CalculateFromAttack(vortexAtk, AtkType.Magical, enemy);
             enemy.TakeDamage(damage);
-            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            // Ставим кулдаун для этого конкретного врага
             damageTimers[enemy] = Time.time + damageInterval;
         }
     }
@@ -57,18 +57,18 @@ public class VortexLogic : MonoBehaviour
     {
         toRemove.Clear();
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // Собираем всех, кто больше не валиден
         foreach (var enemy in damageTimers)
         {
-            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (null) пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
-            // (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
+            // Если враг умер (null) или отошел слишком далеко от вихря
+            // (чтобы не хранить таймеры тех, кто уже на другом конце карты)
             if (enemy.Key == null)
             {
                 toRemove.Add(enemy.Key);
             }
         }
 
-        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // Безопасно удаляем
         foreach (var entity in toRemove)
         {
             damageTimers.Remove(entity);
