@@ -5,41 +5,41 @@ using UnityEngine;
 
 public enum SPChargeType
 {
-    PerSecond,  // каждую секунду (Арсенал, Раздор, Нейросимфония и др.)
-    PerAttack,  // каждую атаку юнита (Метаморфоза, Препарат NT-X7, Магические пули)
-    None        // SP нет (Мученица — активируется при деплое)
+    PerSecond,  // РєР°Р¶РґСѓСЋ СЃРµРєСѓРЅРґСѓ (РђСЂСЃРµРЅР°Р», Р Р°Р·РґРѕСЂ, РќРµР№СЂРѕСЃРёРјС„РѕРЅРёСЏ Рё РґСЂ.)
+    PerAttack,  // РєР°Р¶РґСѓСЋ Р°С‚Р°РєСѓ СЋРЅРёС‚Р° (РњРµС‚Р°РјРѕСЂС„РѕР·Р°, РџСЂРµРїР°СЂР°С‚ NT-X7, РњР°РіРёС‡РµСЃРєРёРµ РїСѓР»Рё)
+    None        // SP РЅРµС‚ (РњСѓС‡РµРЅРёС†Р° вЂ” Р°РєС‚РёРІРёСЂСѓРµС‚СЃСЏ РїСЂРё РґРµРїР»РѕРµ)
 }
 
 public enum ActivationType
 {
-    Manual,     // ручная активация игроком
-    Auto,       // автоматически когда SP заполнен
-    OnDeploy    // один раз при деплое
+    Manual,     // СЂСѓС‡РЅР°СЏ Р°РєС‚РёРІР°С†РёСЏ РёРіСЂРѕРєРѕРј
+    Auto,       // Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РєРѕРіРґР° SP Р·Р°РїРѕР»РЅРµРЅ
+    OnDeploy    // РѕРґРёРЅ СЂР°Р· РїСЂРё РґРµРїР»РѕРµ
 }
 
 
 
 public abstract class Skill : MonoBehaviour
 {
-    [Header("Настройки SP")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё SP")]
     public SPChargeType spChargeType;
     public ActivationType activationType;
     public float maxSP = 10f;
     public float currentSP = 0f;
 
-    [Header("Длительность")]
-    public bool hasDuration;        // есть ли ограниченная длительность
-    public float duration;          // секунды (0 = бесконечно пока не выключат)
-    public bool canToggleOff;       // можно ли выключить вручную (Метаморфоза)
+    [Header("Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ")]
+    public bool hasDuration;        // РµСЃС‚СЊ Р»Рё РѕРіСЂР°РЅРёС‡РµРЅРЅР°СЏ РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ
+    public float duration;          // СЃРµРєСѓРЅРґС‹ (0 = Р±РµСЃРєРѕРЅРµС‡РЅРѕ РїРѕРєР° РЅРµ РІС‹РєР»СЋС‡Р°С‚)
+    public bool canToggleOff;       // РјРѕР¶РЅРѕ Р»Рё РІС‹РєР»СЋС‡РёС‚СЊ РІСЂСѓС‡РЅСѓСЋ (РњРµС‚Р°РјРѕСЂС„РѕР·Р°)
 
-    [Header("Состояние")]
+    [Header("РЎРѕСЃС‚РѕСЏРЅРёРµ")]
     public bool isActive = false;
     public float durationTimer = 0f;
 
     protected EntityData self;
     protected AttackTargetInRange targetList;
 
-    public System.Action OnSPChanged;   // для UI полоски SP
+    public System.Action OnSPChanged;   // РґР»СЏ UI РїРѕР»РѕСЃРєРё SP
     public System.Action OnActivated;
     public System.Action OnDeactivated;
 
@@ -51,7 +51,7 @@ public abstract class Skill : MonoBehaviour
 
     protected virtual void Start()
     {
-        // Мученица — активируется сразу при деплое
+        // РњСѓС‡РµРЅРёС†Р° вЂ” Р°РєС‚РёРІРёСЂСѓРµС‚СЃСЏ СЃСЂР°Р·Сѓ РїСЂРё РґРµРїР»РѕРµ
         if (activationType == ActivationType.OnDeploy)
             Activate();
     }
@@ -65,11 +65,11 @@ public abstract class Skill : MonoBehaviour
                 Deactivate();
         }
 
-        // Зарядка SP по времени — прямо здесь, не в дочерних классах
+        // Р—Р°СЂСЏРґРєР° SP РїРѕ РІСЂРµРјРµРЅРё вЂ” РїСЂСЏРјРѕ Р·РґРµСЃСЊ, РЅРµ РІ РґРѕС‡РµСЂРЅРёС… РєР»Р°СЃСЃР°С…
         if (!isActive && spChargeType == SPChargeType.PerSecond)
             ChargePerSecond();
 
-        // Авто-активация
+        // РђРІС‚Рѕ-Р°РєС‚РёРІР°С†РёСЏ
         if (!isActive && activationType == ActivationType.Auto)
         {
             if (currentSP >= maxSP)
@@ -77,16 +77,16 @@ public abstract class Skill : MonoBehaviour
         }
     }
 
-    //  Зарядка SP 
+    //  Р—Р°СЂСЏРґРєР° SP 
 
-    // Вызывается из Update скилла (для PerSecond)
+    // Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· Update СЃРєРёР»Р»Р° (РґР»СЏ PerSecond)
     protected void ChargePerSecond()
     {
-        if (isActive) return; // во время скилла SP не копится
+        if (isActive) return; // РІРѕ РІСЂРµРјСЏ СЃРєРёР»Р»Р° SP РЅРµ РєРѕРїРёС‚СЃСЏ
         AddSP(Time.deltaTime);
     }
 
-    // Вызывается из AttackTargetInRange когда юнит атакует (для PerAttack)
+    // Р’С‹Р·С‹РІР°РµС‚СЃСЏ РёР· AttackTargetInRange РєРѕРіРґР° СЋРЅРёС‚ Р°С‚Р°РєСѓРµС‚ (РґР»СЏ PerAttack)
     public void ChargePerAttack(float amount = 1f)
     {
         if (isActive) return;
@@ -103,7 +103,7 @@ public abstract class Skill : MonoBehaviour
             Activate();
     }
 
-    //  Активация / деактивация 
+    //  РђРєС‚РёРІР°С†РёСЏ / РґРµР°РєС‚РёРІР°С†РёСЏ 
     public virtual bool CanActivate()
     {
         return true;
@@ -111,7 +111,7 @@ public abstract class Skill : MonoBehaviour
 
     public void Activate()
     {
-        // Toggle-скиллы (Метаморфоза)
+        // Toggle-СЃРєРёР»Р»С‹ (РњРµС‚Р°РјРѕСЂС„РѕР·Р°)
         if (isActive && canToggleOff)
         {
             Deactivate();
@@ -122,7 +122,7 @@ public abstract class Skill : MonoBehaviour
         
         if (!CanActivate()) return;
 
-        // Ручная активация требует полного SP
+        // Р СѓС‡РЅР°СЏ Р°РєС‚РёРІР°С†РёСЏ С‚СЂРµР±СѓРµС‚ РїРѕР»РЅРѕРіРѕ SP
         if (activationType == ActivationType.Manual && currentSP < maxSP) return;
         
         isActive = true;
@@ -146,7 +146,7 @@ public abstract class Skill : MonoBehaviour
         OnSkillDeactivate();
     }
 
-    //  Переопределяются в каждом скилле 
+    //  РџРµСЂРµРѕРїСЂРµРґРµР»СЏСЋС‚СЃСЏ РІ РєР°Р¶РґРѕРј СЃРєРёР»Р»Рµ 
 
     protected abstract void OnSkillActivate();
     protected virtual void OnSkillDeactivate() { }
